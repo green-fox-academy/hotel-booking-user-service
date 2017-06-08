@@ -11,45 +11,41 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.http.MediaType;
 import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.test.context.web.WebAppConfiguration;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.web.context.WebApplicationContext;
 import org.springframework.web.servlet.config.annotation.EnableWebMvc;
 
+@RunWith(SpringRunner.class)
+@SpringBootTest(classes = UserServiceApplication.class)
+@WebAppConfiguration
+@EnableWebMvc
 public class HeartbeatRestControllerTest {
 
-  @RunWith(SpringRunner.class)
-  @SpringBootTest(classes = UserServiceApplication.class)
-  @WebAppConfiguration
-  @EnableWebMvc
-  public class MessageControllerTest {
+  private MockMvc mockMvc;
 
-    private MockMvc mockMvc;
+  @Autowired
+  private WebApplicationContext webApplicationContext;
 
-    @Autowired
-    private WebApplicationContext webApplicationContext;
+  @Before
+  public void setup() throws Exception {
+    this.mockMvc = webAppContextSetup(webApplicationContext).build();
+  }
 
-    @Before
-    public void setup() throws Exception {
-      this.mockMvc = webAppContextSetup(webApplicationContext).build();
-    }
+  @Test
+  public void GetHearbeatOK() throws Exception {
+    mockMvc.perform(get("/hearthbeat"))
+        .andExpect(status().isOk())
+        .andExpect(jsonPath("$.status").value("ok"))
+        .andExpect(jsonPath("$.database").value("ok"));
+  }
 
-    @Test
-    public void GetHearbeatOK() throws Exception {
-      mockMvc.perform(get("/heartbeat"))
-          .andExpect(status().isOk())
-          .andExpect(jsonPath("$.status").value("ok"))
-          .andExpect(jsonPath("$.database").value("ok"));
-    }
-
-    @Test
-    public void FailTestTest() throws Exception {
-      mockMvc.perform(get("/heartbeat"))
-          .andExpect(status().isOk())
-          .andExpect(jsonPath("$.status").value("fail"))
-          .andExpect(jsonPath("$.database").value("fail"));
-    }
+  @Test
+  public void FailTestTest() throws Exception {
+    mockMvc.perform(get("/hearthbeat"))
+        .andExpect(status().isOk())
+        .andExpect(jsonPath("$.status").value("fail"))
+        .andExpect(jsonPath("$.database").value("fail"));
   }
 }
