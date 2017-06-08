@@ -1,5 +1,7 @@
 package com.greenfox.model;
 
+import com.fasterxml.jackson.annotation.JsonInclude;
+import com.fasterxml.jackson.annotation.JsonInclude.Include;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -16,17 +18,19 @@ public class Hearthbeat {
   int id;
   String status;
   @Column(name = "dbase")
+  @JsonInclude(Include.NON_NULL)
   String database;
 
-
   public Hearthbeat() {
-    this.status = "ok";
-    this.database = "ok";
+  }
+
+  public Hearthbeat(String status) {
+    this.status = status;
   }
 
   public Hearthbeat(String status, String database) {
-    this.status = "ok";
-    this.database = "ok";
+    this.status = status;
+    this.database = database;
   }
 
   public String getStatus() {
