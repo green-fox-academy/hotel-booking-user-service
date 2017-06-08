@@ -19,6 +19,7 @@ public class HearthbeatRestController {
     if (hearthbeatRepository.count() == 0) {
       hearthbeat.setDatabase("error");
     }
+    
     return hearthbeat;
   }
 }
