@@ -14,7 +14,11 @@ public class HearthbeatRestController {
 
   @GetMapping("/hearthbeat")
   public Hearthbeat validateMessage() {
+    Hearthbeat hearthbeat = new Hearthbeat();
     hearthbeatRepository.save(new Hearthbeat());
-    return new Hearthbeat();
+    if (hearthbeatRepository.count() == 0) {
+      hearthbeat.setDatabase("error");
+    }
+    return hearthbeat;
   }
 }
