@@ -1,8 +1,10 @@
 package com.greenfox.repository;
 
-import com.greenfox.model.Heartbeat;
+import com.greenfox.model.Hearthbeat;
 import org.springframework.data.repository.CrudRepository;
+import org.springframework.stereotype.Repository;
 
-public interface HearthbeatRepository extends CrudRepository<Heartbeat, Long>{
+@Repository
+public interface HearthbeatRepository extends CrudRepository<Hearthbeat, Long>{
 
 }
