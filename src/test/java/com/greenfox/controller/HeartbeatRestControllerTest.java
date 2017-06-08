@@ -43,5 +43,13 @@ public class HeartbeatRestControllerTest {
           .andExpect(jsonPath("$.status").value("ok"))
           .andExpect(jsonPath("$.database").value("ok"));
     }
+
+    @Test
+    public void FailTestTest() throws Exception {
+      mockMvc.perform(get("/heartbeat"))
+          .andExpect(status().isOk())
+          .andExpect(jsonPath("$.status").value("fail"))
+          .andExpect(jsonPath("$.database").value("fail"));
+    }
   }
 }
