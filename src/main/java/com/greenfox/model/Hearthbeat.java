@@ -1,8 +1,20 @@
 package com.greenfox.model;
 
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.Table;
+
+@Table(name = "hearthbeat")
+@Entity
 public class Hearthbeat {
-String status;
-String database;
+
+  @Id
+  @GeneratedValue(strategy = GenerationType.AUTO)
+  int id;
+  String status;
+  String database;
 
 
   public Hearthbeat() {
