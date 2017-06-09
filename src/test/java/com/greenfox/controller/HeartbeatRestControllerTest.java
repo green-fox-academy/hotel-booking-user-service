@@ -6,6 +6,8 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 import static org.springframework.test.web.servlet.setup.MockMvcBuilders.webAppContextSetup;
 
 import com.greenfox.UserServiceApplication;
+import com.greenfox.model.Hearthbeat;
+import com.greenfox.repository.HearthbeatRepository;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -28,17 +30,38 @@ public class HeartbeatRestControllerTest {
   @Autowired
   private WebApplicationContext webApplicationContext;
 
+  @Autowired
+  private HearthbeatRepository hearthbeatRepository;
+
   @Before
   public void setup() throws Exception {
     this.mockMvc = webAppContextSetup(webApplicationContext).build();
   }
 
   @Test
-  public void GetHearbeatOK() throws Exception {
+  public void GetSimpleHeartBeatOk() throws Exception {
     mockMvc.perform(get("/hearthbeat"))
         .andExpect(status().isOk())
         .andExpect(jsonPath("$.status").value("ok"))
         .andExpect(jsonPath("$.database").value("ok"));
+  }
+
+  @Test
+  public void GetHearbeatDBOk() throws Exception {
+    hearthbeatRepository.save(new Hearthbeat());
+    mockMvc.perform(get("/hearthbeat"))
+        .andExpect(status().isOk())
+        .andExpect(jsonPath("$.status").value("ok"))
+        .andExpect(jsonPath("$.database").value("ok"));
+    hearthbeatRepository.deleteAll();
+  }
+
+  @Test
+  public void GetHearbeatDBError() throws Exception {
+    mockMvc.perform(get("/hearthbeat"))
+        .andExpect(status().isOk())
+        .andExpect(jsonPath("$.status").value("ok"))
+        .andExpect(jsonPath("$.database").value("error"));
   }
 
   @Test

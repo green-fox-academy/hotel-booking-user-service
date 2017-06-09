@@ -18,6 +18,7 @@ sourceCompatibility = 1.8
 
 repositories {
     mavenCentral()
+    jcenter()
 }
 
 
@@ -29,4 +30,5 @@ dependencies {
     runtime('mysql:mysql-connector-java')
     testCompile('org.springframework.boot:spring-boot-starter-test')
     compile('org.springframework.boot:spring-boot-starter-thymeleaf')
+    testCompile ("org.mockito:mockito-core:2.+")
 }
