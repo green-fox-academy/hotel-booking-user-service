@@ -1,8 +1,11 @@
 package com.greenfox.model;
 
+import org.springframework.stereotype.Component;
+
+@Component
 public class Yondu {
 
-  String name;
+  public String name;
 
   public Yondu() {
     name = "Yondu";
