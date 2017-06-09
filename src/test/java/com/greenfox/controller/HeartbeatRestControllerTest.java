@@ -39,14 +39,6 @@ public class HeartbeatRestControllerTest {
   }
 
   @Test
-  public void GetSimpleHeartBeatOk() throws Exception {
-    mockMvc.perform(get("/hearthbeat"))
-        .andExpect(status().isOk())
-        .andExpect(jsonPath("$.status").value("ok"))
-        .andExpect(jsonPath("$.database").value("ok"));
-  }
-
-  @Test
   public void GetHearbeatDBOk() throws Exception {
     Status status = new Status();
     status.setStatus(true);
@@ -64,13 +56,5 @@ public class HeartbeatRestControllerTest {
         .andExpect(status().isOk())
         .andExpect(jsonPath("$.status").value("ok"))
         .andExpect(jsonPath("$.database").value("error"));
-  }
-
-  @Test
-  public void FailTestTest() throws Exception {
-    mockMvc.perform(get("/hearthbeat"))
-        .andExpect(status().isOk())
-        .andExpect(jsonPath("$.status").value("fail"))
-        .andExpect(jsonPath("$.database").value("fail"));
   }
 }
