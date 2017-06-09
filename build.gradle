@@ -32,4 +32,5 @@ dependencies {
     testCompile('org.springframework.boot:spring-boot-starter-test')
     compile('org.springframework.boot:spring-boot-starter-thymeleaf')
     testCompile ("org.mockito:mockito-core:2.+")
+    compile group: 'ch.qos.logback', name: 'logback-core', version: '1.2.1'
 }
