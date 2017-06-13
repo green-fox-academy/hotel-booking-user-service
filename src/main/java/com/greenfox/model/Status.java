@@ -1,5 +1,6 @@
 package com.greenfox.model;
 
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.Table;
@@ -8,8 +9,10 @@ import javax.persistence.Table;
 @Table(name = "hearthbeat")
 public class Status {
 
-  @Id
+  @Column
   private Boolean status;
+  @Id
+  private int id;
 
   public Boolean getStatus() {
     return status;
