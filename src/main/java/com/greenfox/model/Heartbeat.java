@@ -5,20 +5,20 @@ import com.fasterxml.jackson.annotation.JsonInclude.Include;
 import org.springframework.stereotype.Component;
 
 @Component
-public class Hearthbeat {
+public class Heartbeat {
 
   String status;
   @JsonInclude(Include.NON_NULL)
   String database;
 
-  public Hearthbeat() {
+  public Heartbeat() {
   }
 
-  public Hearthbeat(String status) {
+  public Heartbeat(String status) {
     this.status = status;
   }
 
-  public Hearthbeat(String status, String database) {
+  public Heartbeat(String status, String database) {
     this.status = status;
     this.database = database;
   }

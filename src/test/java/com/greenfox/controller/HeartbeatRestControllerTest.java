@@ -2,7 +2,7 @@ package com.greenfox.controller;
 
 import com.greenfox.UserServiceApplication;
 import com.greenfox.model.Status;
-import com.greenfox.repository.HearthbeatRepository;
+import com.greenfox.repository.HeartbeatRepository;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -31,7 +31,7 @@ public class HeartbeatRestControllerTest {
   private WebApplicationContext webApplicationContext;
 
   @Autowired
-  private HearthbeatRepository hearthbeatRepository;
+  private HeartbeatRepository heartbeatRepository;
 
   @Before
   public void setup() throws Exception {
@@ -39,19 +39,20 @@ public class HeartbeatRestControllerTest {
   }
 
   @Test
-  public void GetHearbeatDBOk() throws Exception {
-    Status valami = new Status();
-    valami.setStatus(true);
-    hearthbeatRepository.save(valami);
-    mockMvc.perform(get("/hearthbeat"))
+  public void GetHeartbeatDBOk() throws Exception {
+    Status status = new Status();
+    status.setStatus(true);
+    heartbeatRepository.save(status);
+    mockMvc.perform(get("/heartbeat"))
             .andExpect(status().isOk())
             .andExpect(jsonPath("$.status").value("ok"))
             .andExpect(jsonPath("$.database").value("ok"));
   }
 
   @Test
-  public void GetHearbeatDBError() throws Exception {
-    mockMvc.perform(get("/hearthbeat"))
+  public void GetHeartbeatDBError() throws Exception {
+    heartbeatRepository.deleteAll();
+    mockMvc.perform(get("/heartbeat"))
             .andExpect(status().isOk())
             .andExpect(jsonPath("$.status").value("ok"))
             .andExpect(jsonPath("$.database").value("error"));
