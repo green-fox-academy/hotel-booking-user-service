@@ -7,7 +7,7 @@ import org.springframework.stereotype.Service;
 @Service
 public class HeartbeatService {
 
-  public Heartbeat getHearthBeat(HeartbeatRepository heartbeatRepository) {
+  public Heartbeat getHeartBeat(HeartbeatRepository heartbeatRepository) {
     if (heartbeatRepository.count() == 0) {
       return new Heartbeat("ok","error");
     } else {

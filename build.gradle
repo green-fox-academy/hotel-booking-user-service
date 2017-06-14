@@ -1,3 +1,7 @@
+configurations {
+    compile.exclude group: 'ch.qos.logback'
+}
+
 buildscript {
     ext {
         springBootVersion = '1.5.3.RELEASE'
@@ -21,10 +25,13 @@ repositories {
     jcenter()
 }
 
-
 dependencies {
+    compile group: 'org.springframework.boot', name: 'spring-boot-starter-log4j2', version: '1.5.4.RELEASE'
+    compile group: 'org.slf4j', name: 'slf4j-api', version: '1.7.25'
     compile('org.springframework.boot:spring-boot-starter-data-jpa')
-    compile('org.springframework.boot:spring-boot-starter-web')
+    compile('org.springframework.boot:spring-boot-starter-web') {
+        exclude module: 'spring-boot-starter-logging'
+    }
     runtime('org.springframework.boot:spring-boot-devtools')
     runtime('org.postgresql:postgresql')
     runtime('mysql:mysql-connector-java')
