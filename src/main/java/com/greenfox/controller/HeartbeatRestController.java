@@ -27,6 +27,6 @@ public class HeartbeatRestController {
 
   @GetMapping("/heartbeat")
   public Heartbeat validateMessage() {
-    return heartbeatService.getHearthBeat(heartbeatRepository);
+    return heartbeatService.getHeartBeat(heartbeatRepository);
   }
 }
