@@ -22,16 +22,16 @@ public class HeartbeatServiceTest {
   public void getHeartBeatForDatabaseError() throws Exception {
     HeartbeatService heartbeatService = new HeartbeatService();
     Mockito.when(heartbeatRepository.count()).thenReturn(0L);
-    assertTrue(new HeartbeatService().getHearthBeat(heartbeatRepository).getStatus().equals(new Heartbeat("ok", "error").getStatus()));
-    assertTrue(new HeartbeatService().getHearthBeat(heartbeatRepository).getDatabase().equals(new Heartbeat("ok", "error").getDatabase()));
+    assertTrue(new HeartbeatService().getHeartBeat(heartbeatRepository).getStatus().equals(new Heartbeat("ok", "error").getStatus()));
+    assertTrue(new HeartbeatService().getHeartBeat(heartbeatRepository).getDatabase().equals(new Heartbeat("ok", "error").getDatabase()));
   }
 
   @Test
   public void getHeartBeatForDatabaseOk() throws Exception {
     HeartbeatService heartbeatService = new HeartbeatService();
     Mockito.when(heartbeatRepository.count()).thenReturn(1L);
-    assertTrue(new HeartbeatService().getHearthBeat(heartbeatRepository).getStatus().equals(new Heartbeat("ok", "ok").getStatus()));
-    assertTrue(new HeartbeatService().getHearthBeat(heartbeatRepository).getStatus().equals(new Heartbeat("ok", "ok").getStatus()));
+    assertTrue(new HeartbeatService().getHeartBeat(heartbeatRepository).getStatus().equals(new Heartbeat("ok", "ok").getStatus()));
+    assertTrue(new HeartbeatService().getHeartBeat(heartbeatRepository).getStatus().equals(new Heartbeat("ok", "ok").getStatus()));
   }
 
   @After
