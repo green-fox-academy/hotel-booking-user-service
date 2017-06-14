@@ -35,14 +35,14 @@ public class HeartbeatRestControllerTest {
 
   @Before
   public void setup() throws Exception {
-    this.mockMvc = webAppContextSetup(webApplicationContext).build();
+    mockMvc = webAppContextSetup(webApplicationContext).build();
   }
 
   @Test
   public void GetHearbeatDBOk() throws Exception {
-    Status status = new Status();
-    status.setStatus(true);
-    hearthbeatRepository.save(status);
+    Status valami = new Status();
+    valami.setStatus(true);
+    hearthbeatRepository.save(valami);
     mockMvc.perform(get("/hearthbeat"))
             .andExpect(status().isOk())
             .andExpect(jsonPath("$.status").value("ok"))
