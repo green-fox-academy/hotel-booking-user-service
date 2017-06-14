@@ -1,1 +1,0 @@
-CREATE TABLE hearthbeat (status bit NOT NULL, PRIMARY KEY (status))

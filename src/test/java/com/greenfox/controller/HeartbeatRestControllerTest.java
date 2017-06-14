@@ -2,12 +2,11 @@ package com.greenfox.controller;
 
 import com.greenfox.UserServiceApplication;
 import com.greenfox.model.Status;
-import com.greenfox.repository.HearthbeatRepository;
+import com.greenfox.repository.HeartbeatRepository;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.test.context.web.WebAppConfiguration;
@@ -32,27 +31,28 @@ public class HeartbeatRestControllerTest {
   private WebApplicationContext webApplicationContext;
 
   @Autowired
-  private HearthbeatRepository hearthbeatRepository;
+  private HeartbeatRepository heartbeatRepository;
 
   @Before
   public void setup() throws Exception {
-    this.mockMvc = webAppContextSetup(webApplicationContext).build();
+    mockMvc = webAppContextSetup(webApplicationContext).build();
   }
 
   @Test
-  public void GetHearbeatDBOk() throws Exception {
+  public void GetHeartbeatDBOk() throws Exception {
     Status status = new Status();
     status.setStatus(true);
-    hearthbeatRepository.save(status);
-    mockMvc.perform(get("/hearthbeat"))
+    heartbeatRepository.save(status);
+    mockMvc.perform(get("/heartbeat"))
             .andExpect(status().isOk())
             .andExpect(jsonPath("$.status").value("ok"))
             .andExpect(jsonPath("$.database").value("ok"));
   }
 
   @Test
-  public void GetHearbeatDBError() throws Exception {
-    mockMvc.perform(get("/hearthbeat"))
+  public void GetHeartbeatDBError() throws Exception {
+    heartbeatRepository.deleteAll();
+    mockMvc.perform(get("/heartbeat"))
             .andExpect(status().isOk())
             .andExpect(jsonPath("$.status").value("ok"))
             .andExpect(jsonPath("$.database").value("error"));
