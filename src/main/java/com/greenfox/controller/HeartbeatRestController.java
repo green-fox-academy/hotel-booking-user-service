@@ -3,17 +3,12 @@ package com.greenfox.controller;
 import com.greenfox.model.Heartbeat;
 import com.greenfox.repository.HeartbeatRepository;
 import com.greenfox.service.HeartbeatService;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
 public class HeartbeatRestController {
-
-  private final static Logger logger = LoggerFactory.getLogger("user-service.herokuapp.com");
 
   HeartbeatService heartbeatService;
   HeartbeatRepository heartbeatRepository;
@@ -24,17 +19,8 @@ public class HeartbeatRestController {
     this.heartbeatRepository = heartbeatRepository;
   }
 
-  @ExceptionHandler(Exception.class)
-  public Heartbeat databaseError() {
-    return new Heartbeat("ok");
-  }
-
   @GetMapping("/heartbeat")
   public Heartbeat validateMessage() {
-    logger.debug("test debug message");
-    logger.error("test error message");
-    logger.info("GET /heartbeat endpoint called");
-    logger.warn("test warn message");
     return heartbeatService.getHeartBeat(heartbeatRepository);
   }
 }
