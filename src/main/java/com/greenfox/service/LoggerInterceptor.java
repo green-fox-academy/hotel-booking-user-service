@@ -10,12 +10,12 @@ import java.io.IOException;
 
 public class LoggerInterceptor extends HandlerInterceptorAdapter {
 
-  private final static Logger logger = LoggerFactory.getLogger("user-service.herokuapp.com");
+  private final static Logger logger = LoggerFactory.getLogger("com.greenfox.service.LoggerInterceptor");
 
   @Override
   public boolean preHandle(HttpServletRequest request, HttpServletResponse response,
                            Object handler) throws IOException {
-    logger.info(request.getMethod() + request.getRequestURI() + " endpoint called");
+    logger.info(request.getMethod() + " " + request.getRequestURI() + " endpoint called");
     return true;
   }
 }
