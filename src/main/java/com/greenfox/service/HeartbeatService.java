@@ -8,10 +8,8 @@ import org.springframework.stereotype.Service;
 public class HeartbeatService {
 
   public Heartbeat getHeartBeat(HeartbeatRepository heartbeatRepository) {
-    if (heartbeatRepository.count() == 0) {
-      return new Heartbeat("ok","error");
-    } else {
-      return new Heartbeat("ok", "ok");
-    }
+    return heartbeatRepository.count() == 0 ?
+        new Heartbeat("ok", "error") :
+        new Heartbeat("ok", "ok");
   }
 }
