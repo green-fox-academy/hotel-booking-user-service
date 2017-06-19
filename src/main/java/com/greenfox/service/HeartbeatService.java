@@ -7,12 +7,14 @@ import org.springframework.stereotype.Service;
 @Service
 public class HeartbeatService {
 
-  public Heartbeat getHeartBeat(HeartbeatRepository heartbeatRepository) {
+  public Heartbeat getHeartBeat(HeartbeatRepository heartbeatRepository) throws Exception {
+    RabbitService rabbitService = new RabbitService();
     Heartbeat heartbeat = new Heartbeat("ok");
+
     if (heartbeatRepository.count() > 0) {
       heartbeat.setDatabase("ok");
     }
-    if (true) {
+    if (rabbitService.rabbitMonitoring()) {
       heartbeat.setQueue("ok");
     }
     return heartbeat;

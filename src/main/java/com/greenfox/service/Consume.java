@@ -12,7 +12,8 @@ public class Consume {
 
   private final static String QUEUE_NAME = "heartbeat";
 
-  public void consume() throws Exception {
+  public String consume() throws Exception {
+    final String[] receivedMessage = {""};
     ConnectionSetter connectionSetter = new ConnectionSetter();
     connectionSetter.setFactory();
     Connection connection = connectionSetter.getFactory().newConnection();
@@ -26,10 +27,12 @@ public class Consume {
           AMQP.BasicProperties properties, byte[] body)
           throws IOException {
         String message = new String(body, "UTF-8");
+        receivedMessage[0] = message;
         System.out.println("Received '" + message + "'");
       }
     };
     channel.basicConsume(QUEUE_NAME, true, consumer);
+    return receivedMessage[0];
   }
 
   public static String getQueueName() {

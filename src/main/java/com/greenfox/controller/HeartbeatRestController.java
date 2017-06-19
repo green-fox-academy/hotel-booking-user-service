@@ -36,7 +36,7 @@ public class HeartbeatRestController {
 
   @GetMapping("/heartbeat")
   public Heartbeat validateMessage() throws Exception {
-    send.send();
+    send.send("Send message");
     consume.consume();
     logger.debug("test debug message");
     logger.error("test error message");
