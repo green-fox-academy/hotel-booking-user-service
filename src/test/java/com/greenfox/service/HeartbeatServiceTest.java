@@ -30,8 +30,23 @@ public class HeartbeatServiceTest {
     Mockito.when(heartbeatRepository.count()).thenReturn(1L);
     Heartbeat testHeartbeat = new Heartbeat("ok");
     testHeartbeat.setDatabase("ok");
-    assertEquals(new HeartbeatService().getHeartBeat(heartbeatRepository).getStatus(),
-            testHeartbeat.getStatus());
+    assertEquals(new HeartbeatService().getHeartBeat(heartbeatRepository).getDatabase(),
+            testHeartbeat.getDatabase());
+  }
+
+
+  @Test
+  public void getHeartbeatForQueueErrorTest() {
+    assertEquals(new HeartbeatService().getHeartBeat(heartbeatRepository).getQueue(),
+            new Heartbeat("ok").getQueue());
+  }
+
+  @Test
+  public void getHeartbeatForQueueOkTest() {
+    Heartbeat testHeartbeat = new Heartbeat("ok");
+    testHeartbeat.setQueue("ok");
+    assertEquals(new HeartbeatService().getHeartBeat(heartbeatRepository).getQueue(),
+            testHeartbeat.getQueue());
   }
 
   @After
