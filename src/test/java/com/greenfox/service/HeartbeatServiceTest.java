@@ -34,7 +34,6 @@ public class HeartbeatServiceTest {
             testHeartbeat.getDatabase());
   }
 
-
   @Test
   public void getHeartbeatForQueueErrorTest() throws Exception {
     assertEquals(new HeartbeatService().getHeartBeat(heartbeatRepository).getQueue(),

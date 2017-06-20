@@ -39,6 +39,8 @@ public class HeartbeatRestControllerTest {
   public void setup() throws Exception {
     mockMvc = webAppContextSetup(webApplicationContext).build();
   }
+  Send send = new Send();
+  Consume consume = new Consume();
 
   @Test
   public void getHeartbeatTest_DBOkAndQueueOk() throws Exception {
@@ -96,14 +98,11 @@ public class HeartbeatRestControllerTest {
   }
 
   public void queueSetupForOk() throws Exception {
-    Send send = new Send();
-    Consume consume = new Consume();
     send.send("message");
     consume.consume();
   }
 
   public void queueSetupForError() throws Exception {
-    Send send = new Send();
-    send.send("message");
+    send.send("error");
   }
 }

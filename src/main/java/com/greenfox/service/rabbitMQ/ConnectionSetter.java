@@ -19,10 +19,6 @@ public class ConnectionSetter {
     this.factory = new ConnectionFactory();
   }
 
-  public static URI getRabbitmqUrl() {
-    return rabbitmqUrl;
-  }
-
   public static void setRabbitmqUrl(URI rabbitmqUrl) {
     ConnectionSetter.rabbitmqUrl = rabbitmqUrl;
   }

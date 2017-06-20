@@ -19,8 +19,8 @@ public class Send {
     Channel channel = connection.createChannel();
     channel.basicPublish("", QUEUE_NAME, null, message.getBytes("UTF-8"));
     System.out.println("Message sent: '" + message + "'");
-    channel.close();
-    connection.close();
+//    channel.close();
+//    connection.close();
   }
 
   public String dispatch(String hostname, String message) throws Exception {
@@ -31,8 +31,8 @@ public class Send {
     Gson gson = new Gson();
     String eventJson = gson.toJson(new Event(hostname, message));
     channel.basicPublish("", "event", null, eventJson.getBytes());
-    channel.close();
-    connection.close();
+//    channel.close();
+//    connection.close();
     return eventJson;
   }
 
