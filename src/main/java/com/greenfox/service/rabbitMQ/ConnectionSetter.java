@@ -1,4 +1,4 @@
-package com.greenfox.service;
+package com.greenfox.service.rabbitMQ;
 
 import com.rabbitmq.client.ConnectionFactory;
 import java.net.URI;

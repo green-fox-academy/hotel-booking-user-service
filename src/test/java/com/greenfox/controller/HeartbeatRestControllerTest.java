@@ -8,8 +8,8 @@ import static org.springframework.test.web.servlet.setup.MockMvcBuilders.webAppC
 import com.greenfox.UserServiceApplication;
 import com.greenfox.model.Status;
 import com.greenfox.repository.HeartbeatRepository;
-import com.greenfox.service.Consume;
-import com.greenfox.service.Send;
+import com.greenfox.service.rabbitMQ.Consume;
+import com.greenfox.service.rabbitMQ.Send;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;

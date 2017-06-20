@@ -1,4 +1,4 @@
-package com.greenfox.service;
+package com.greenfox.service.rabbitMQ;
 
 import com.google.gson.Gson;
 import com.greenfox.model.Event;

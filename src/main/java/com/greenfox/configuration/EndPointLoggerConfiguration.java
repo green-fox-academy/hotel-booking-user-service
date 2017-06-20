@@ -9,7 +9,7 @@ import org.springframework.web.servlet.config.annotation.WebMvcConfigurerAdapter
 @Configuration
 public class EndPointLoggerConfiguration extends WebMvcConfigurerAdapter {
 
-  LoggerInterceptor loggerInterceptor;
+  private LoggerInterceptor loggerInterceptor;
 
   @Autowired
   public EndPointLoggerConfiguration() {
