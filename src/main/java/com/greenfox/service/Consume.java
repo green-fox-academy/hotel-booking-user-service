@@ -6,6 +6,7 @@ import com.rabbitmq.client.Connection;
 import com.rabbitmq.client.Consumer;
 import com.rabbitmq.client.DefaultConsumer;
 import com.rabbitmq.client.Envelope;
+
 import java.io.IOException;
 
 public class Consume {
@@ -27,14 +28,15 @@ public class Consume {
     Consumer consumer = new DefaultConsumer(channel) {
       @Override
       public void handleDelivery(String consumerTag, Envelope envelope,
-          AMQP.BasicProperties properties, byte[] body)
-          throws IOException {
+                                 AMQP.BasicProperties properties, byte[] body)
+              throws IOException {
         String message = new String(body, "UTF-8");
         receivedMessage = message;
         System.out.println("Received '" + message + "'");
       }
     };
     channel.basicConsume(QUEUE_NAME, true, consumer);
+    channel.basicConsume("event", true, consumer);
   }
 
   public static String getQueueName() {
