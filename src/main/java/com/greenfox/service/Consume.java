@@ -23,6 +23,7 @@ public class Consume {
     Connection connection = connectionSetter.getFactory().newConnection();
     Channel channel = connection.createChannel();
     channel.queueDeclare(QUEUE_NAME, false, false, false, null);
+    channel.queueDeclare("event", false, false, false, null);
     Consumer consumer = new DefaultConsumer(channel) {
       @Override
       public void handleDelivery(String consumerTag, Envelope envelope,

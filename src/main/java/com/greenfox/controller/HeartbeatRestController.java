@@ -27,4 +27,9 @@ public class HeartbeatRestController {
   public Heartbeat validateMessage() throws Exception {
     return heartbeatService.getHeartBeat(heartbeatRepository);
   }
+
+  @GetMapping("/sendevent")
+  public void sendEvent() throws Exception {
+    send.dispatch("user-service.herokuapp.com", "hello");
+  }
 }

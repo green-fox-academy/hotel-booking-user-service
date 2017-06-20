@@ -46,10 +46,4 @@ public class Event {
   public void setMessage(String message) {
     this.message = message;
   }
-
-  public static String dispatch(String hostname, String message) {
-    Gson gson = new Gson();
-    String eventJson = gson.toJson(new Event(hostname, message));
-    return eventJson;
-  }
 }
