@@ -12,7 +12,7 @@ public class ConnectionSetter {
 
   public ConnectionSetter() {
     try {
-      rabbitmqUrl = new URI(System.getenv("RABBITMQ_BIGWIG_RX_URL"));
+      rabbitmqUrl = new URI(System.getenv("RABBITMQ_BIGWIG_URL"));
     } catch (URISyntaxException e) {
       e.getStackTrace();
     }

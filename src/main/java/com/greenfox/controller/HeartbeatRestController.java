@@ -4,6 +4,7 @@ import com.greenfox.model.Heartbeat;
 import com.greenfox.repository.HeartbeatRepository;
 import com.greenfox.service.HeartbeatService;
 import com.greenfox.service.Consume;
+import com.greenfox.service.RabbitService;
 import com.greenfox.service.Send;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -36,8 +37,7 @@ public class HeartbeatRestController {
 
   @GetMapping("/heartbeat")
   public Heartbeat validateMessage() throws Exception {
-    send.send("Send message");
-    consume.consume();
+    RabbitService rabbitService = new RabbitService();
     logger.debug("test debug message");
     logger.error("test error message");
     logger.info("GET /heartbeat endpoint called");

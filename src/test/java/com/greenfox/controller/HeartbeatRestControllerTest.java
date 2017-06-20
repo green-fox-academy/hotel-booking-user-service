@@ -95,10 +95,11 @@ public class HeartbeatRestControllerTest {
     heartbeatRepository.deleteAll();
   }
 
-  public void queueSetupForOk() {
+  public void queueSetupForOk() throws Exception {
     Send send = new Send();
     Consume consume = new Consume();
     send.send("message");
+    consume.consume();
   }
 
   public void queueSetupForError() {

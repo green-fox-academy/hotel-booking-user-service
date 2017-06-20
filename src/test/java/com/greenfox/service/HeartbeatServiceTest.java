@@ -1,13 +1,13 @@
 package com.greenfox.service;
 
+import static org.junit.Assert.assertEquals;
+
 import com.greenfox.model.Heartbeat;
 import com.greenfox.repository.HeartbeatRepository;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 import org.mockito.Mockito;
-
-import static org.junit.Assert.assertEquals;
 
 public class HeartbeatServiceTest {
 
@@ -36,13 +36,13 @@ public class HeartbeatServiceTest {
 
 
   @Test
-  public void getHeartbeatForQueueErrorTest() {
+  public void getHeartbeatForQueueErrorTest() throws Exception {
     assertEquals(new HeartbeatService().getHeartBeat(heartbeatRepository).getQueue(),
             new Heartbeat("ok").getQueue());
   }
 
   @Test
-  public void getHeartbeatForQueueOkTest() {
+  public void getHeartbeatForQueueOkTest() throws Exception {
     Heartbeat testHeartbeat = new Heartbeat("ok");
     testHeartbeat.setQueue("ok");
     assertEquals(new HeartbeatService().getHeartBeat(heartbeatRepository).getQueue(),

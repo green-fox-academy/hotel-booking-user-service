@@ -12,8 +12,8 @@ public class RabbitService {
     Send send = new Send();
     Consume consume = new Consume();
     send.send("message");
-    String received = consume.consume();
-    System.out.println(received);
+    consume.consume();
+    String received = consume.getReceivedMessage();
     if (received.equals(received)) {
       return true;
     } else {
