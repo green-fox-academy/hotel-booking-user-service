@@ -102,7 +102,8 @@ public class HeartbeatRestControllerTest {
     consume.consume();
   }
 
-  public void queueSetupForError() {
-
+  public void queueSetupForError() throws Exception {
+    Send send = new Send();
+    send.send("message");
   }
 }
