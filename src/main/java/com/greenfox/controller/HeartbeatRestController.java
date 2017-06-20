@@ -3,6 +3,8 @@ package com.greenfox.controller;
 import com.greenfox.model.Heartbeat;
 import com.greenfox.repository.HeartbeatRepository;
 import com.greenfox.service.HeartbeatService;
+import com.greenfox.service.Consume;
+import com.greenfox.service.Send;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -10,6 +12,8 @@ import org.springframework.web.bind.annotation.RestController;
 @RestController
 public class HeartbeatRestController {
 
+  Send send = new Send();
+  Consume consume = new Consume();
   HeartbeatService heartbeatService;
   HeartbeatRepository heartbeatRepository;
 
@@ -20,7 +24,7 @@ public class HeartbeatRestController {
   }
 
   @GetMapping("/heartbeat")
-  public Heartbeat validateMessage() {
+  public Heartbeat validateMessage() throws Exception {
     return heartbeatService.getHeartBeat(heartbeatRepository);
   }
 }

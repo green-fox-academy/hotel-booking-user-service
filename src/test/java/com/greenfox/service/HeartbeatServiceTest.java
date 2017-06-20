@@ -1,5 +1,7 @@
 package com.greenfox.service;
 
+import static org.junit.Assert.assertEquals;
+
 import com.greenfox.model.Heartbeat;
 import com.greenfox.repository.HeartbeatRepository;
 import org.junit.After;
@@ -7,11 +9,9 @@ import org.junit.Before;
 import org.junit.Test;
 import org.mockito.Mockito;
 
-import static org.junit.Assert.assertTrue;
-
 public class HeartbeatServiceTest {
 
-  HeartbeatRepository heartbeatRepository;
+  private HeartbeatRepository heartbeatRepository;
 
   @Before
   public void setUp() throws Exception {
@@ -19,19 +19,34 @@ public class HeartbeatServiceTest {
   }
 
   @Test
-  public void getHeartBeatForDatabaseError() throws Exception {
-    HeartbeatService heartbeatService = new HeartbeatService();
+  public void getHeartBeatForDatabaseErrorTest() throws Exception {
     Mockito.when(heartbeatRepository.count()).thenReturn(0L);
-    assertTrue(new HeartbeatService().getHeartBeat(heartbeatRepository).getStatus().equals(new Heartbeat("ok", "error").getStatus()));
-    assertTrue(new HeartbeatService().getHeartBeat(heartbeatRepository).getDatabase().equals(new Heartbeat("ok", "error").getDatabase()));
+    assertEquals(new HeartbeatService().getHeartBeat(heartbeatRepository).getDatabase(),
+            new Heartbeat("ok").getDatabase());
   }
 
   @Test
-  public void getHeartBeatForDatabaseOk() throws Exception {
-    HeartbeatService heartbeatService = new HeartbeatService();
+  public void getHeartBeatForDatabaseOkTest() throws Exception {
     Mockito.when(heartbeatRepository.count()).thenReturn(1L);
-    assertTrue(new HeartbeatService().getHeartBeat(heartbeatRepository).getStatus().equals(new Heartbeat("ok", "ok").getStatus()));
-    assertTrue(new HeartbeatService().getHeartBeat(heartbeatRepository).getStatus().equals(new Heartbeat("ok", "ok").getStatus()));
+    Heartbeat testHeartbeat = new Heartbeat("ok");
+    testHeartbeat.setDatabase("ok");
+    assertEquals(new HeartbeatService().getHeartBeat(heartbeatRepository).getDatabase(),
+            testHeartbeat.getDatabase());
+  }
+
+
+  @Test
+  public void getHeartbeatForQueueErrorTest() throws Exception {
+    assertEquals(new HeartbeatService().getHeartBeat(heartbeatRepository).getQueue(),
+            new Heartbeat("ok").getQueue());
+  }
+
+  @Test
+  public void getHeartbeatForQueueOkTest() throws Exception {
+    Heartbeat testHeartbeat = new Heartbeat("ok");
+    testHeartbeat.setQueue("ok");
+    assertEquals(new HeartbeatService().getHeartBeat(heartbeatRepository).getQueue(),
+            testHeartbeat.getQueue());
   }
 
   @After
