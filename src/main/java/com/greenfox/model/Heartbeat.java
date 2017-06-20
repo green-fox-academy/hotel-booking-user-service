@@ -1,34 +1,22 @@
 package com.greenfox.model;
 
-import com.fasterxml.jackson.annotation.JsonInclude;
-import com.fasterxml.jackson.annotation.JsonInclude.Include;
-import org.springframework.stereotype.Component;
-
-@Component
 public class Heartbeat {
 
-  String status;
-  @JsonInclude(Include.NON_NULL)
-  String database;
+  private String status;
+  private String database;
+  private String queue;
 
   public Heartbeat() {
   }
 
   public Heartbeat(String status) {
     this.status = status;
-  }
-
-  public Heartbeat(String status, String database) {
-    this.status = status;
-    this.database = database;
+    database = "error";
+    queue = "error";
   }
 
   public String getStatus() {
     return status;
-  }
-
-  public void setStatus(String status) {
-    this.status = status;
   }
 
   public String getDatabase() {
@@ -37,5 +25,13 @@ public class Heartbeat {
 
   public void setDatabase(String database) {
     this.database = database;
+  }
+
+  public String getQueue() {
+    return queue;
+  }
+
+  public void setQueue(String queue) {
+    this.queue = queue;
   }
 }

@@ -16,6 +16,11 @@ apply plugin: 'org.springframework.boot'
 version = '0.0.1-SNAPSHOT'
 sourceCompatibility = 1.8
 
+jar {
+    baseName = 'gs-messaging-rabbitmq'
+    version =  '0.1.0'
+}
+
 repositories {
     mavenCentral()
     jcenter()
@@ -23,6 +28,7 @@ repositories {
 
 
 dependencies {
+    compile group: 'com.google.code.gson', name: 'gson', version: '2.6.2'
     compile('org.springframework.boot:spring-boot-starter-data-jpa')
     compile('org.springframework.boot:spring-boot-starter-web')
     runtime('org.springframework.boot:spring-boot-devtools')
@@ -33,4 +39,5 @@ dependencies {
     compile('org.springframework.boot:spring-boot-starter-thymeleaf')
     testCompile ("org.mockito:mockito-core:2.+")
     testCompile group: 'com.h2database', name: 'h2', version: '1.0.60'
+    compile group: 'com.rabbitmq', name: 'amqp-client', version: '4.1.0'
 }
