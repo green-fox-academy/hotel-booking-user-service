@@ -10,7 +10,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
-public class HeartbeatRestController {
+public class HeartbeatController {
 
   private Send send = new Send();
   private Consume consume = new Consume();
@@ -18,7 +18,7 @@ public class HeartbeatRestController {
   private HeartbeatRepository heartbeatRepository;
 
   @Autowired
-  public HeartbeatRestController(HeartbeatService heartbeatService, HeartbeatRepository heartbeatRepository) {
+  public HeartbeatController(HeartbeatService heartbeatService, HeartbeatRepository heartbeatRepository) {
     this.heartbeatService = heartbeatService;
     this.heartbeatRepository = heartbeatRepository;
   }
