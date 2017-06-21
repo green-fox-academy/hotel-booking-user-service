@@ -7,7 +7,9 @@ import com.rabbitmq.client.Connection;
 
 public class Send {
 
-  private final static String QUEUE_NAME = "heartbeat";
+  private final static String QUEUE_HEARTBEAT = "heartbeat";
+  private final static String QUEUE_EVENT = "event";
+  private final static String EXCHANGE_NAME = "exchange";
 
   public Send() {
   }
@@ -17,10 +19,9 @@ public class Send {
     connectionSetter.setFactory();
     Connection connection = connectionSetter.getFactory().newConnection();
     Channel channel = connection.createChannel();
-    channel.basicPublish("", QUEUE_NAME, null, message.getBytes("UTF-8"));
+    channel.exchangeDeclare(EXCHANGE_NAME, "direct");
+    channel.basicPublish(EXCHANGE_NAME, QUEUE_HEARTBEAT, null, message.getBytes("UTF-8"));
     System.out.println("Message sent: '" + message + "'");
-//    channel.close();
-//    connection.close();
   }
 
   public String dispatch(String hostname, String message) throws Exception {
@@ -30,13 +31,8 @@ public class Send {
     Channel channel = connection.createChannel();
     Gson gson = new Gson();
     String eventJson = gson.toJson(new Event(hostname, message));
-    channel.basicPublish("", "event", null, eventJson.getBytes());
-//    channel.close();
-//    connection.close();
+    channel.basicPublish(EXCHANGE_NAME, QUEUE_EVENT, null, eventJson.getBytes());
     return eventJson;
   }
 
-  public static String getQueueName() {
-    return QUEUE_NAME;
-  }
 }
