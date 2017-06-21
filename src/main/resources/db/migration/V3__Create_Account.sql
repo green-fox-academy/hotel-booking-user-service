@@ -1,0 +1,1 @@
+CREATE TABLE account (email text, password text);
