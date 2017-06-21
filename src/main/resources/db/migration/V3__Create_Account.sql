@@ -1,1 +1,1 @@
-CREATE TABLE account (email text, password text);
+CREATE TABLE account (id serial NOT NULL, email text, password text, token text, PRIMARY KEY (id));
