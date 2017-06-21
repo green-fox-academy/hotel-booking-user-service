@@ -12,7 +12,7 @@ public class RabbitService {
     Send send = new Send();
     Consume consume = new Consume();
     send.send("monitoring message");
-    consume.consume();
+    consume.consume("heartbeat");
     String received = consume.getReceivedMessage();
     return (received.equals("monitoring message"));
   }

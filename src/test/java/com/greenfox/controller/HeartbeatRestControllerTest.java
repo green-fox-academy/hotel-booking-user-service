@@ -99,7 +99,7 @@ public class HeartbeatRestControllerTest {
 
   public void queueSetupForOk() throws Exception {
     send.send("message");
-    consume.consume();
+    consume.consume("heartbeat");
   }
 
   public void queueSetupForError() throws Exception {
