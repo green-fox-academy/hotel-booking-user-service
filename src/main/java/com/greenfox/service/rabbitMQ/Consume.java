@@ -7,19 +7,21 @@ import java.io.IOException;
 public class Consume {
   public String receivedMessage;
 
-  private final static String QUEUE_NAME = "heartbeat";
+  private final static String QUEUE_HEARTBEAT = "heartbeat";
+  private final static String QUEUE_EVENT = "event";
+  private final static String EXCHANGE_NAME = "exchange";
 
   public Consume() {
     this.receivedMessage = "";
   }
 
-  public void consume() throws Exception {
+  public void consume(String queue) throws Exception {
     ConnectionSetter connectionSetter = new ConnectionSetter();
     connectionSetter.setFactory();
     Connection connection = connectionSetter.getFactory().newConnection();
     Channel channel = connection.createChannel();
-    channel.queueDeclare(QUEUE_NAME, false, false, false, null);
-//    channel.queueDeclare("event", false, false, false, null);
+    channel.queueDeclare(queue, false, false, false, null);
+
     Consumer consumer = new DefaultConsumer(channel) {
       @Override
       public void handleDelivery(String consumerTag, Envelope envelope,
@@ -30,15 +32,12 @@ public class Consume {
         System.out.println("Received '" + message + "'");
       }
     };
-    channel.basicConsume(QUEUE_NAME, true, consumer);
-//    channel.basicConsume("event", true, consumer);
+
+    channel.basicConsume(queue, true, consumer);
     channel.close();
     connection.close();
   }
 
-  public static String getQueueName() {
-    return QUEUE_NAME;
-  }
 
   public String getReceivedMessage() {
     return receivedMessage;
