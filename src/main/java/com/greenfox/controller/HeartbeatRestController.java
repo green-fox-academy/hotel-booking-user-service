@@ -15,17 +15,15 @@ public class HeartbeatRestController {
   private Send send = new Send();
   private Consume consume = new Consume();
   private HeartbeatService heartbeatService;
-  private HeartbeatRepository heartbeatRepository;
 
   @Autowired
   public HeartbeatRestController(HeartbeatService heartbeatService, HeartbeatRepository heartbeatRepository) {
     this.heartbeatService = heartbeatService;
-    this.heartbeatRepository = heartbeatRepository;
   }
 
   @GetMapping("/heartbeat")
   public Heartbeat validateMessage() throws Exception {
-    return heartbeatService.getHeartBeat(heartbeatRepository);
+    return heartbeatService.getHeartBeat();
   }
 
   @GetMapping("/sendevent")
