@@ -1,11 +1,14 @@
 package com.greenfox.service.rabbitMQ;
 
 import com.rabbitmq.client.ConnectionFactory;
-import java.net.URI;
-import java.net.URISyntaxException;
+import org.springframework.context.annotation.Profile;
 import org.springframework.stereotype.Component;
 
+import java.net.URI;
+import java.net.URISyntaxException;
+
 @Component
+@Profile("default")
 public class ConnectionSetter {
   private static URI rabbitmqUrl;
   ConnectionFactory factory;
@@ -17,10 +20,6 @@ public class ConnectionSetter {
       e.getStackTrace();
     }
     this.factory = new ConnectionFactory();
-  }
-
-  public static URI getRabbitmqUrl() {
-    return rabbitmqUrl;
   }
 
   public static void setRabbitmqUrl(URI rabbitmqUrl) {

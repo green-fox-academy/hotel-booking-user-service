@@ -7,8 +7,6 @@ import com.rabbitmq.client.Connection;
 
 public class Send {
 
-  private final static String QUEUE_NAME = "heartbeat";
-
   public Send() {
   }
 
@@ -17,10 +15,8 @@ public class Send {
     connectionSetter.setFactory();
     Connection connection = connectionSetter.getFactory().newConnection();
     Channel channel = connection.createChannel();
-    channel.basicPublish("", QUEUE_NAME, null, message.getBytes("UTF-8"));
+    channel.basicPublish("", "heartbeat", null, message.getBytes("UTF-8"));
     System.out.println("Message sent: '" + message + "'");
-    channel.close();
-    connection.close();
   }
 
   public String dispatch(String hostname, String message) throws Exception {
@@ -31,12 +27,7 @@ public class Send {
     Gson gson = new Gson();
     String eventJson = gson.toJson(new Event(hostname, message));
     channel.basicPublish("", "event", null, eventJson.getBytes());
-    channel.close();
-    connection.close();
     return eventJson;
   }
 
-  public static String getQueueName() {
-    return QUEUE_NAME;
-  }
 }

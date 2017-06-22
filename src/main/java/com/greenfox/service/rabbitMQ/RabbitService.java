@@ -11,13 +11,9 @@ public class RabbitService {
   public boolean rabbitMonitoring() throws Exception {
     Send send = new Send();
     Consume consume = new Consume();
-    send.send("message");
-    consume.consume();
+    send.send("monitoring message");
+    consume.consume("heartbeat");
     String received = consume.getReceivedMessage();
-    if (received.equals(received)) {
-      return true;
-    } else {
-      return false;
-    }
+    return (received.equals("monitoring message"));
   }
 }

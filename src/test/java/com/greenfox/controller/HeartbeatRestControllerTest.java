@@ -8,13 +8,14 @@ import static org.springframework.test.web.servlet.setup.MockMvcBuilders.webAppC
 import com.greenfox.UserServiceApplication;
 import com.greenfox.model.Status;
 import com.greenfox.repository.HeartbeatRepository;
-import com.greenfox.service.rabbitMQ.Consume;
-import com.greenfox.service.rabbitMQ.Send;
+import com.greenfox.service.rabbitMQ.MockRabbitService;
+import com.greenfox.service.rabbitMQ.RabbitService;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.test.context.web.WebAppConfiguration;
 import org.springframework.test.web.servlet.MockMvc;
@@ -25,6 +26,7 @@ import org.springframework.web.servlet.config.annotation.EnableWebMvc;
 @SpringBootTest(classes = UserServiceApplication.class)
 @WebAppConfiguration
 @EnableWebMvc
+@ActiveProfiles("test")
 public class HeartbeatRestControllerTest {
 
   private MockMvc mockMvc;
@@ -34,6 +36,9 @@ public class HeartbeatRestControllerTest {
 
   @Autowired
   private HeartbeatRepository heartbeatRepository;
+
+  @Autowired
+  private RabbitService rabbitService;
 
   @Before
   public void setup() throws Exception {
@@ -96,14 +101,10 @@ public class HeartbeatRestControllerTest {
   }
 
   public void queueSetupForOk() throws Exception {
-    Send send = new Send();
-    Consume consume = new Consume();
-    send.send("message");
-    consume.consume();
+    ((MockRabbitService) rabbitService).consume();
   }
 
   public void queueSetupForError() throws Exception {
-    Send send = new Send();
-    send.send("message");
+    ((MockRabbitService) rabbitService).send();
   }
 }
