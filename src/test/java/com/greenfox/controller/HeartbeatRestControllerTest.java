@@ -1,30 +1,32 @@
 package com.greenfox.controller;
 
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
-import static org.springframework.test.web.servlet.setup.MockMvcBuilders.webAppContextSetup;
-
 import com.greenfox.UserServiceApplication;
 import com.greenfox.model.Status;
 import com.greenfox.repository.HeartbeatRepository;
-import com.greenfox.service.rabbitMQ.Consume;
-import com.greenfox.service.rabbitMQ.Send;
+import com.greenfox.service.rabbitMQ.MockRabbitService;
+import com.greenfox.service.rabbitMQ.RabbitService;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.test.context.web.WebAppConfiguration;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.web.context.WebApplicationContext;
 import org.springframework.web.servlet.config.annotation.EnableWebMvc;
 
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
+import static org.springframework.test.web.servlet.setup.MockMvcBuilders.webAppContextSetup;
+
 @RunWith(SpringRunner.class)
 @SpringBootTest(classes = UserServiceApplication.class)
 @WebAppConfiguration
 @EnableWebMvc
+@ActiveProfiles("test")
 public class HeartbeatRestControllerTest {
 
   private MockMvc mockMvc;
@@ -35,12 +37,13 @@ public class HeartbeatRestControllerTest {
   @Autowired
   private HeartbeatRepository heartbeatRepository;
 
+  @Autowired
+  private RabbitService rabbitService;
+
   @Before
   public void setup() throws Exception {
     mockMvc = webAppContextSetup(webApplicationContext).build();
   }
-  Send send = new Send();
-  Consume consume = new Consume();
 
   @Test
   public void getHeartbeatTest_DBOkAndQueueOk() throws Exception {
@@ -98,11 +101,10 @@ public class HeartbeatRestControllerTest {
   }
 
   public void queueSetupForOk() throws Exception {
-    send.send("message");
-    consume.consume();
+    ((MockRabbitService) rabbitService).consume();
   }
 
   public void queueSetupForError() throws Exception {
-    send.send("error");
+    ((MockRabbitService) rabbitService).send();
   }
 }
