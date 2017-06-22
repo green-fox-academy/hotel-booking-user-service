@@ -2,13 +2,21 @@ package com.greenfox.model;
 
 public class Data {
   private String type;
-  private Attributes attributes;
+  private Object attributes;
+
+  public Data() {
+  }
+
+  public Data(String type, Object attributes) {
+    this.type = type;
+    this.attributes = attributes;
+  }
 
   public String getType() {
     return type;
   }
 
-  public Attributes getAttributes() {
+  public Object getAttributes() {
     return attributes;
   }
 
