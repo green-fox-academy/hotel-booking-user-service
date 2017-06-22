@@ -29,6 +29,6 @@ public class HeartbeatRestController {
   @GetMapping("/sendevent")
   public void sendEvent() throws Exception {
     send.dispatch("user-service.herokuapp.com", "hello");
-    consume.consume();
+    consume.consume("events");
   }
 }
