@@ -10,7 +10,7 @@ import java.io.IOException;
 
 public class LoggerInterceptor extends HandlerInterceptorAdapter {
 
-  private final static Logger logger = LoggerFactory.getLogger("com.greenfox.service.LoggerInterceptor");
+  private final static Logger logger = LoggerFactory.getLogger(LoggerInterceptor.class);
 
   @Override
   public boolean preHandle(HttpServletRequest request, HttpServletResponse response,
