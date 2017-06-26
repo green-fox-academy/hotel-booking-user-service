@@ -1,0 +1,1 @@
+CREATE TABLE account (id serial NOT NULL, email text, admin BOOLEAN, token text, PRIMARY KEY (id));
