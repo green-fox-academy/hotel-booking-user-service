@@ -34,6 +34,13 @@ public class Account {
     this.password = password;
   }
 
+  public Account(Long id, String email, boolean admin, String token) {
+    this.id = id;
+    this.email = email;
+    this.admin = admin;
+    this.token = token;
+  }
+
   public Account(Long id, String email, boolean admin, String token, String password) {
     this.id = id;
     this.email = email;
@@ -41,6 +48,8 @@ public class Account {
     this.token = token;
     this.password = password;
   }
+
+
 
   public Long getId() {
     return id;
