@@ -27,7 +27,6 @@ public class HeartbeatServiceTest {
   @Test
   public void getHeartBeatForDatabaseErrorTest() throws Exception {
     Mockito.when(heartbeatRepository.count()).thenReturn(0L);
-    System.out.println(heartbeatService.getHeartBeat().getDatabase());
     assertEquals(heartbeatService.getHeartBeat().getDatabase(),
             new Heartbeat("ok").getDatabase());
   }

@@ -1,4 +1,4 @@
-package com.greenfox.model;
+package com.greenfox.register.model;
 
 public class RequestData {
   private Data data;

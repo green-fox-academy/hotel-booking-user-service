@@ -1,4 +1,4 @@
-package com.greenfox.model;
+package com.greenfox.rabbitmq.model;
 
 import com.google.gson.Gson;
 import java.time.LocalDateTime;

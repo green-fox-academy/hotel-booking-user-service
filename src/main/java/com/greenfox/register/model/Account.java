@@ -1,4 +1,4 @@
-package com.greenfox.model;
+package com.greenfox.register.model;
 
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;

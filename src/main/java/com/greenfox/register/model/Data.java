@@ -1,4 +1,4 @@
-package com.greenfox.model;
+package com.greenfox.register.model;
 
 public class Data {
   private String type;

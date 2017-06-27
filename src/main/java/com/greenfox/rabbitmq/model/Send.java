@@ -1,7 +1,6 @@
 package com.greenfox.rabbitmq.model;
 
 import com.google.gson.Gson;
-import com.greenfox.model.Event;
 import com.greenfox.rabbitmq.service.ConnectionSetter;
 import com.rabbitmq.client.Channel;
 import com.rabbitmq.client.Connection;

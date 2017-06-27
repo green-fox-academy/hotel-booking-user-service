@@ -1,11 +1,11 @@
-package com.greenfox.heartbeat;
+package com.greenfox.register.controller;
 
-import com.greenfox.model.Attributes;
-import com.greenfox.service.JwtCreator;
-import com.greenfox.model.Account;
-import com.greenfox.model.Data;
-import com.greenfox.model.RequestData;
-import com.greenfox.repository.AccountRepository;
+import com.greenfox.register.model.Attributes;
+import com.greenfox.register.service.JwtCreator;
+import com.greenfox.register.model.Account;
+import com.greenfox.register.model.Data;
+import com.greenfox.register.model.RequestData;
+import com.greenfox.register.repository.AccountRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;

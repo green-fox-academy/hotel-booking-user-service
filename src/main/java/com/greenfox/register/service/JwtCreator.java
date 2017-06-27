@@ -1,4 +1,4 @@
-package com.greenfox.service;
+package com.greenfox.register.service;
 
 import io.jsonwebtoken.JwtBuilder;
 import io.jsonwebtoken.Jwts;
