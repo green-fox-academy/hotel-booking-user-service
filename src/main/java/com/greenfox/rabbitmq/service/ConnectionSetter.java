@@ -1,4 +1,4 @@
-package com.greenfox.service.rabbitMQ;
+package com.greenfox.rabbitmq.service;
 
 import com.rabbitmq.client.ConnectionFactory;
 import org.springframework.context.annotation.Profile;

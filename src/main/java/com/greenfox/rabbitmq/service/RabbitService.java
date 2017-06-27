@@ -1,5 +1,7 @@
-package com.greenfox.service.rabbitMQ;
+package com.greenfox.rabbitmq.service;
 
+import com.greenfox.rabbitmq.model.Send;
+import com.greenfox.rabbitmq.model.Consume;
 import org.springframework.stereotype.Service;
 
 @Service

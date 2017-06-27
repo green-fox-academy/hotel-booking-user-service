@@ -2,8 +2,7 @@ package com.greenfox.heartbeat.service;
 
 import com.greenfox.heartbeat.model.Heartbeat;
 import com.greenfox.heartbeat.repository.HeartbeatRepository;
-import com.greenfox.heartbeat.service.HeartbeatService;
-import com.greenfox.service.rabbitMQ.RabbitService;
+import com.greenfox.rabbitmq.service.RabbitService;
 import org.junit.After;
 import org.junit.Test;
 import org.junit.runner.RunWith;

@@ -1,5 +1,6 @@
-package com.greenfox.service.rabbitMQ;
+package com.greenfox.rabbitmq.model;
 
+import com.greenfox.rabbitmq.service.ConnectionSetter;
 import com.rabbitmq.client.*;
 
 import java.io.IOException;

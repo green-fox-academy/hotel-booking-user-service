@@ -1,7 +1,7 @@
-package com.greenfox.configuration;
+package com.greenfox.rabbitmq.configuration;
 
-import com.greenfox.service.rabbitMQ.MockRabbitService;
-import com.greenfox.service.rabbitMQ.RabbitService;
+import com.greenfox.rabbitmq.service.MockRabbitService;
+import com.greenfox.rabbitmq.service.RabbitService;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Profile;
