@@ -4,12 +4,10 @@ import org.aspectj.lang.annotation.After;
 import org.aspectj.lang.annotation.Aspect;
 
 @Aspect
-public aspect HeartbeatAspect {
+public class HeartbeatAspect {
 
   @After(value = "execution(public * validateMessage())")
   public void heartbeatAdvice(){
     System.out.println("hellobello");
   }
-
-
 }
