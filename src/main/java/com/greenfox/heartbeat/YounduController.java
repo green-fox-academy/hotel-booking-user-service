@@ -1,4 +1,4 @@
-package com.greenfox.controller;
+package com.greenfox.heartbeat;
 
 import com.greenfox.model.Yondu;
 import org.springframework.beans.factory.annotation.Autowired;

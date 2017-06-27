@@ -1,4 +1,4 @@
-package com.greenfox.model;
+package com.greenfox.heartbeat.model;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;

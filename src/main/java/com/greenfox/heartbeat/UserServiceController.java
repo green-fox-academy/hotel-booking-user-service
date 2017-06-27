@@ -1,4 +1,4 @@
-package com.greenfox.controller;
+package com.greenfox.heartbeat;
 
 import com.greenfox.model.Attributes;
 import com.greenfox.service.JwtCreator;

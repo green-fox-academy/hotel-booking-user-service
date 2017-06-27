@@ -1,7 +1,7 @@
-package com.greenfox.service;
+package com.greenfox.heartbeat.service;
 
-import com.greenfox.model.Heartbeat;
-import com.greenfox.repository.HeartbeatRepository;
+import com.greenfox.heartbeat.model.Heartbeat;
+import com.greenfox.heartbeat.repository.HeartbeatRepository;
 import com.greenfox.service.rabbitMQ.RabbitService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;

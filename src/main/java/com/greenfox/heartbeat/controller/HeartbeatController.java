@@ -1,4 +1,4 @@
-package com.greenfox.heartbeat;
+package com.greenfox.heartbeat.controller;
 
 import com.greenfox.heartbeat.model.Heartbeat;
 import com.greenfox.heartbeat.repository.HeartbeatRepository;

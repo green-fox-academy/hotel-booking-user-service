@@ -1,4 +1,4 @@
-package com.greenfox.controller;
+package com.greenfox.heartbeat;
 
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;

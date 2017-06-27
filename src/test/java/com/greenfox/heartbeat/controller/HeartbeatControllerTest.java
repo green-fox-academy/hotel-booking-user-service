@@ -1,4 +1,4 @@
-package com.greenfox.controller;
+package com.greenfox.heartbeat.controller;
 
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
@@ -6,8 +6,8 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 import static org.springframework.test.web.servlet.setup.MockMvcBuilders.webAppContextSetup;
 
 import com.greenfox.UserServiceApplication;
-import com.greenfox.model.Status;
-import com.greenfox.repository.HeartbeatRepository;
+import com.greenfox.heartbeat.model.Status;
+import com.greenfox.heartbeat.repository.HeartbeatRepository;
 import com.greenfox.service.rabbitMQ.MockRabbitService;
 import com.greenfox.service.rabbitMQ.RabbitService;
 import org.junit.Before;
@@ -27,7 +27,7 @@ import org.springframework.web.servlet.config.annotation.EnableWebMvc;
 @WebAppConfiguration
 @EnableWebMvc
 @ActiveProfiles("test")
-public class HeartbeatRestControllerTest {
+public class HeartbeatControllerTest {
 
   private MockMvc mockMvc;
 
