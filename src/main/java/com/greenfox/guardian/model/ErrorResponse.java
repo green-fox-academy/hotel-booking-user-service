@@ -1,4 +1,4 @@
-package com.greenfox.model;
+package com.greenfox.guardian.model;
 
 import java.util.List;
 

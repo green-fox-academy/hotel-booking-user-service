@@ -1,7 +1,7 @@
-package com.greenfox.controller;
+package com.greenfox.guardian.controller;
 
-import com.greenfox.model.Error;
-import com.greenfox.model.ErrorResponse;
+import com.greenfox.guardian.model.Error;
+import com.greenfox.guardian.model.ErrorResponse;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;

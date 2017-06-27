@@ -1,4 +1,4 @@
-package com.greenfox.model;
+package com.greenfox.guardian.model;
 
 public class Error {
 
