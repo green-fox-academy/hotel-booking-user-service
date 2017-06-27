@@ -15,8 +15,7 @@ import java.util.List;
 public class GuardedEnd {
 
   @GetMapping("/user/{id}")
-  public ResponseEntity getUserRelatedStuff(@RequestHeader("Authorization") String authorization) {
-
+  public ResponseEntity getUserRelatedStuff(@RequestHeader(required = false, value = "Authorization") String authorization) {
     if (authorization == null || authorization.equals("Bearer " + "invalidToken")) {
       List tempList = new ArrayList();
       Error tempError = new Error("401",
