@@ -26,7 +26,7 @@ public class Send {
     Channel channel = connection.createChannel();
     Gson gson = new Gson();
     String eventJson = gson.toJson(new Event(hostname, message));
-    channel.basicPublish("", "event", null, eventJson.getBytes());
+    channel.basicPublish("", "events", null, eventJson.getBytes());
     return eventJson;
   }
 

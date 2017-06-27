@@ -6,11 +6,9 @@ import com.greenfox.heartbeat.service.HeartbeatService;
 import com.greenfox.rabbitmq.model.Consume;
 import com.greenfox.rabbitmq.model.Send;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Component;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-@Component
 @RestController
 public class HeartbeatController {
 
@@ -19,7 +17,8 @@ public class HeartbeatController {
   private HeartbeatService heartbeatService;
 
   @Autowired
-  public HeartbeatController(HeartbeatService heartbeatService, HeartbeatRepository heartbeatRepository) {
+  public HeartbeatController(HeartbeatService heartbeatService,
+      HeartbeatRepository heartbeatRepository) {
     this.heartbeatService = heartbeatService;
   }
 
