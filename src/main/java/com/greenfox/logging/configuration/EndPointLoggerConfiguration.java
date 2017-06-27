@@ -1,6 +1,6 @@
-package com.greenfox.configuration;
+package com.greenfox.logging.configuration;
 
-import com.greenfox.service.LoggerInterceptor;
+import com.greenfox.logging.service.LoggerInterceptor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.web.servlet.config.annotation.InterceptorRegistry;
