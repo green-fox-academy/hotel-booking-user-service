@@ -18,7 +18,6 @@ import org.springframework.web.context.WebApplicationContext;
 import org.springframework.web.servlet.config.annotation.EnableWebMvc;
 
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 import static org.springframework.test.web.servlet.setup.MockMvcBuilders.webAppContextSetup;
@@ -95,19 +94,6 @@ public class HeartbeatControllerTest {
     Status status = new Status();
     status.setStatus(true);
     heartbeatRepository.save(status);
-  }
-
-  @Test
-  public void guardedEndpointTest_withoutToken() throws Exception {
-    mockMvc.perform(get("/user/1"))
-            .andExpect(status().isUnauthorized())
-            .andExpect(content().json("{\n" +
-                    "     \"errors\": [{\n" +
-                    "       \"status\": \"401\",\n" +
-                    "       \"title\": \"Unauthorized\",\n" +
-                    "       \"detail\": \"No token is provided\"\n" +
-                    "     }]\n" +
-                    "   }"));
   }
 
   public void DBSetupForError() {
