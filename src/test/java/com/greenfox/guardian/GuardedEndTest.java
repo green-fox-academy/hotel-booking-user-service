@@ -37,6 +37,23 @@ public class GuardedEndTest {
   }
 
   @Test
+  public void guardedEndpointTest_withValidTokenAndProvidedHeader() throws Exception {
+    mockMvc.perform(get("/user/1").header("Authorization", "Bearer" + "testToken"))
+            .andExpect(status().isCreated())
+            .andExpect(content().json("{\n" +
+                    "     \"data\": {\n" +
+                    "       \"type\": \"user\",\n" +
+                    "       \"attributes\": {\n" +
+                    "         \"id\": \"1\",\n" +
+                    "         \"email\": \"john.doe@example.org\",\n" +
+                    "         \"admin\": false,\n" +
+                    "         \"token\": \"testToken\"\n" +
+                    "       }\n" +
+                    "     }\n" +
+                    "   }"));
+  }
+
+  @Test
   public void guardedEndpointTest_withoutToken() throws Exception {
     mockMvc.perform(get("/user/1"))
             .andExpect(status().isUnauthorized())
