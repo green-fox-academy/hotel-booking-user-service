@@ -35,7 +35,7 @@ public class UserServiceController {
     String email = attributes.getEmail();
     String password = attributes.getPassword();
 
-    String pw_hashed = BCrypt.hashpw(password, BCrypt.gensalt());
+    String pw_hashed = BCrypt.hashpw(password, BCrypt.gensalt((Integer.parseInt(System.getenv("LOG_ROUNDS")))));
 
     accountRepository.save(new Account(email, false, jwt, pw_hashed));
 
