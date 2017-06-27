@@ -39,7 +39,7 @@ public class GuardedEndTest {
   @Test
   public void guardedEndpointTest_withValidTokenInHeader() throws Exception {
     mockMvc.perform(get("/user/1")
-            .header("Authorization", "Bearer" + "validToken"))
+            .header("Authorization", "Bearer " + "validToken"))
             .andExpect(status().isCreated())
             .andExpect(content().json("{\n" +
                     "     \"data\": {\n" +
@@ -57,7 +57,7 @@ public class GuardedEndTest {
   @Test
   public void guardedEndpointTest_withInvalidTokenInHeader() throws Exception {
     mockMvc.perform(get("/user/1")
-            .header("Authorization", "Bearer" + "invalidToken"))
+            .header("Authorization", "Bearer " + "invalidToken"))
             .andExpect(status().isUnauthorized())
             .andExpect(content().json("{\n" +
                     "     \"errors\": [{\n" +
