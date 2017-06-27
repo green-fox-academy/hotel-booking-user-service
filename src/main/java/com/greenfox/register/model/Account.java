@@ -1,5 +1,6 @@
 package com.greenfox.register.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -14,26 +15,31 @@ public class Account {
   private String email;
   private boolean admin;
   private String token;
+  @JsonIgnore
+  private String password;
 
   public Account() {
   }
 
-  public Account(String email, boolean admin, String token) {
+  public Account(String email, boolean admin, String token, String password) {
     this.email = email;
     this.admin = admin;
     this.token = token;
+    this.password = password;
   }
 
-  public Account(String email, boolean admin) {
+  public Account(String email, boolean admin, String password) {
     this.email = email;
     this.admin = admin;
+    this.password = password;
   }
 
-  public Account(Long id, String email, boolean admin, String token) {
+  public Account(Long id, String email, boolean admin, String token, String password) {
     this.id = id;
     this.email = email;
     this.admin = admin;
     this.token = token;
+    this.password = password;
   }
 
   public Long getId() {
@@ -66,5 +72,13 @@ public class Account {
 
   public void setToken(String token) {
     this.token = token;
+  }
+
+  public String getPassword() {
+    return password;
+  }
+
+  public void setPassword(String password) {
+    this.password = password;
   }
 }

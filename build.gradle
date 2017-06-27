@@ -37,6 +37,7 @@ flyway {
 }
 
 dependencies {
+    compile group: 'org.mindrot', name: 'jbcrypt', version: '0.3m'
     compile 'io.jsonwebtoken:jjwt:0.7.0'
     compile group: 'com.google.code.gson', name: 'gson', version: '2.6.2'
     compile('org.springframework.boot:spring-boot-starter-data-jpa')
