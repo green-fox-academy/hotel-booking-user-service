@@ -45,7 +45,7 @@ public class GuardedEndTest {
                     "     \"data\": {\n" +
                     "       \"type\": \"user\",\n" +
                     "       \"attributes\": {\n" +
-                    "         \"id\": \"1\",\n" +
+                    "         \"id\": 1,\n" +
                     "         \"email\": \"john.doe@example.org\",\n" +
                     "         \"admin\": false,\n" +
                     "         \"token\": \"validToken\"\n" +
