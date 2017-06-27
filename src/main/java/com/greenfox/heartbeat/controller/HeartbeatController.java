@@ -1,8 +1,8 @@
-package com.greenfox.controller;
+package com.greenfox.heartbeat;
 
-import com.greenfox.model.Heartbeat;
-import com.greenfox.repository.HeartbeatRepository;
-import com.greenfox.service.HeartbeatService;
+import com.greenfox.heartbeat.model.Heartbeat;
+import com.greenfox.heartbeat.repository.HeartbeatRepository;
+import com.greenfox.heartbeat.service.HeartbeatService;
 import com.greenfox.service.rabbitMQ.Consume;
 import com.greenfox.service.rabbitMQ.Send;
 import org.springframework.beans.factory.annotation.Autowired;
