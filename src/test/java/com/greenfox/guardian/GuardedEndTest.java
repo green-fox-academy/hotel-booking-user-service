@@ -37,8 +37,9 @@ public class GuardedEndTest {
   }
 
   @Test
-  public void guardedEndpointTest_withValidTokenAndProvidedHeader() throws Exception {
-    mockMvc.perform(get("/user/1").header("Authorization", "Bearer" + "testToken"))
+  public void guardedEndpointTest_withValidTokenInHeader() throws Exception {
+    mockMvc.perform(get("/user/1")
+            .header("Authorization", "Bearer" + "validToken"))
             .andExpect(status().isCreated())
             .andExpect(content().json("{\n" +
                     "     \"data\": {\n" +
@@ -47,14 +48,28 @@ public class GuardedEndTest {
                     "         \"id\": \"1\",\n" +
                     "         \"email\": \"john.doe@example.org\",\n" +
                     "         \"admin\": false,\n" +
-                    "         \"token\": \"testToken\"\n" +
+                    "         \"token\": \"validToken\"\n" +
                     "       }\n" +
                     "     }\n" +
                     "   }"));
   }
 
   @Test
-  public void guardedEndpointTest_withoutToken() throws Exception {
+  public void guardedEndpointTest_withInvalidTokenInHeader() throws Exception {
+    mockMvc.perform(get("/user/1")
+            .header("Authorization", "Bearer" + "invalidToken"))
+            .andExpect(status().isUnauthorized())
+            .andExpect(content().json("{\n" +
+                    "     \"errors\": [{\n" +
+                    "       \"status\": \"401\",\n" +
+                    "       \"title\": \"Unauthorized\",\n" +
+                    "       \"detail\": \"No token is provided\"\n" +
+                    "     }]\n" +
+                    "   }"));
+  }
+
+  @Test
+  public void guardedEndpointTest_withoutHeader() throws Exception {
     mockMvc.perform(get("/user/1"))
             .andExpect(status().isUnauthorized())
             .andExpect(content().json("{\n" +
