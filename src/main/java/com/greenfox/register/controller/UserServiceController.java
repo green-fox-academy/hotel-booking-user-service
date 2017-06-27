@@ -1,5 +1,6 @@
 package com.greenfox.register.controller;
 
+import com.greenfox.register.exception.NoSuchAccountException;
 import com.greenfox.register.model.Attributes;
 import com.greenfox.register.service.JwtCreator;
 import com.greenfox.register.model.Account;
@@ -30,25 +31,45 @@ public class UserServiceController {
   @PostMapping("/register")
   public ResponseEntity saveAccount(@RequestBody RequestData data) throws Exception {
     String jwt = jwtCreator.createJwt("hotel-booking-user-service","new user", 300000);
-
     Attributes attributes = (Attributes) data.getData().getAttributes();
     String email = attributes.getEmail();
     String password = attributes.getPassword();
-
     String pw_hashed = BCrypt.hashpw(password, BCrypt.gensalt((Integer.parseInt(System.getenv("LOG_ROUNDS")))));
 
     accountRepository.save(new Account(email, false, jwt, pw_hashed));
-
-    if(BCrypt.checkpw(password, pw_hashed)) {
-      System.out.println("It matches");
-    } else {
-      System.out.println("It does not match");
-    }
 
     Account responseAccount = accountRepository.findAccountByEmail(email);
     Data responseData = new Data("user",responseAccount);
     RequestData response = new RequestData(responseData);
 
     return new ResponseEntity<>(response, HttpStatus.CREATED);
+  }
+
+  @PostMapping("/login")
+  public ResponseEntity authenticateAccount(@RequestBody RequestData data) throws Exception {
+    // get object from json
+    Attributes attributes = (Attributes) data.getData().getAttributes();
+    String email = attributes.getEmail();
+    String password = attributes.getPassword();
+
+    if (authenticate(email,password)) {
+      //build json response
+      Account responseAccount = accountRepository.findAccountByEmail(email);
+      Data responseData = new Data("user",responseAccount);
+      RequestData response = new RequestData(responseData);
+
+      return new ResponseEntity<>(response, HttpStatus.OK);
+    }
+    return new ResponseEntity<>(HttpStatus.UNAUTHORIZED);
+  }
+
+  private boolean authenticate(String email, String password) throws Exception {
+    Account account;
+    try {
+      account = accountRepository.findAccountByEmail(email);
+    } catch (Exception e) {
+      throw new NoSuchAccountException("Invalid email");
+    }
+    return BCrypt.checkpw(password, account.getPassword());
   }
 }
