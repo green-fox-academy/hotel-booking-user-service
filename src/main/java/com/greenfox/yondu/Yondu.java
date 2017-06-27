@@ -1,4 +1,4 @@
-package com.greenfox.model;
+package com.greenfox.yondu;
 
 import org.springframework.stereotype.Component;
 

@@ -1,17 +1,17 @@
-package com.greenfox.heartbeat;
+package com.greenfox.yondu;
 
-import com.greenfox.model.Yondu;
+import com.greenfox.yondu.Yondu;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
-public class YounduController {
+public class YonduController {
 
   Yondu yondu;
 
   @Autowired
-  public YounduController() {
+  public YonduController() {
     yondu = new Yondu();
   }
 
