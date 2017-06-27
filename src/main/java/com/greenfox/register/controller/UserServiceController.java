@@ -1,5 +1,6 @@
 package com.greenfox.register.controller;
 
+import com.greenfox.register.exception.InvalidPasswordException;
 import com.greenfox.register.exception.NoSuchAccountException;
 import com.greenfox.register.model.Attributes;
 import com.greenfox.register.service.JwtCreator;
@@ -34,15 +35,16 @@ public class UserServiceController {
     Attributes attributes = (Attributes) data.getData().getAttributes();
     String email = attributes.getEmail();
     String password = attributes.getPassword();
-    String pw_hashed = BCrypt.hashpw(password, BCrypt.gensalt((Integer.parseInt(System.getenv("LOG_ROUNDS")))));
 
-    accountRepository.save(new Account(email, false, jwt, pw_hashed));
-
-    Account responseAccount = accountRepository.findAccountByEmail(email);
-    Data responseData = new Data("user",responseAccount);
-    RequestData response = new RequestData(responseData);
-
-    return new ResponseEntity<>(response, HttpStatus.CREATED);
+    if (checkAccount(email)) {
+      return new ResponseEntity<>(HttpStatus.CONFLICT);
+    } else {
+      String pw_hashed = BCrypt
+          .hashpw(password, BCrypt.gensalt((Integer.parseInt(System.getenv("LOG_ROUNDS")))));
+      accountRepository.save(new Account(email, false, jwt, pw_hashed));
+      RequestData response = buildJson(email);
+      return new ResponseEntity<>(response, HttpStatus.CREATED);
+    }
   }
 
   @PostMapping("/login")
@@ -52,24 +54,38 @@ public class UserServiceController {
     String email = attributes.getEmail();
     String password = attributes.getPassword();
 
-    if (authenticate(email,password)) {
-      //build json response
-      Account responseAccount = accountRepository.findAccountByEmail(email);
-      Data responseData = new Data("user",responseAccount);
-      RequestData response = new RequestData(responseData);
-
+    try {
+      authenticate(email,password);
+      RequestData response = buildJson(email);
       return new ResponseEntity<>(response, HttpStatus.OK);
+    } catch (NoSuchAccountException|InvalidPasswordException e) {
+      return new ResponseEntity<>(HttpStatus.UNAUTHORIZED);
     }
-    return new ResponseEntity<>(HttpStatus.UNAUTHORIZED);
   }
 
-  private boolean authenticate(String email, String password) throws Exception {
+  private void authenticate(String email, String password) throws Exception {
     Account account;
-    try {
-      account = accountRepository.findAccountByEmail(email);
-    } catch (Exception e) {
+    if (checkAccount(email)) {
       throw new NoSuchAccountException("Invalid email");
+    } else {
+      account = accountRepository.findAccountByEmail(email);
     }
-    return BCrypt.checkpw(password, account.getPassword());
+    if (!checkPassword(password, account.getPassword())) {
+      throw new InvalidPasswordException("Invalid password");
+    };
+  }
+
+  private RequestData buildJson(String email) {
+    Account responseAccount = accountRepository.findAccountByEmail(email);
+    Data responseData = new Data("user",responseAccount);
+    return new RequestData(responseData);
+  }
+
+  private boolean checkAccount(String email) {
+    return (accountRepository.findAccountByEmail(email) == null);
+  }
+
+  private boolean checkPassword(String password, String pw_hashed) {
+    return BCrypt.checkpw(password, pw_hashed);
   }
 }
