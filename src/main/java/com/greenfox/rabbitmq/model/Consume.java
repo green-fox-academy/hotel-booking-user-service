@@ -8,10 +8,6 @@ import java.io.IOException;
 public class Consume {
   public String receivedMessage;
 
-  private final static String QUEUE_HEARTBEAT = "heartbeat";
-  private final static String QUEUE_EVENT = "event";
-  private final static String EXCHANGE_NAME = "exchange";
-
   public Consume() {
     this.receivedMessage = "";
   }
@@ -38,7 +34,6 @@ public class Consume {
     channel.close();
     connection.close();
   }
-
 
   public String getReceivedMessage() {
     return receivedMessage;
