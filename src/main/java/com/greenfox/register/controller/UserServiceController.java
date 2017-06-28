@@ -1,5 +1,9 @@
 package com.greenfox.register.controller;
 
+import com.google.gson.JsonElement;
+import com.google.gson.JsonObject;
+import com.google.gson.JsonParser;
+import com.google.gson.JsonPrimitive;
 import com.greenfox.register.exception.InvalidPasswordException;
 import com.greenfox.register.exception.NoSuchAccountException;
 import com.greenfox.register.model.Attributes;
@@ -61,6 +65,18 @@ public class UserServiceController {
     } catch (NoSuchAccountException|InvalidPasswordException e) {
       return new ResponseEntity<>(HttpStatus.UNAUTHORIZED);
     }
+  }
+
+  public String parseJson(String json) {
+    JsonElement jelement = new JsonParser().parse(json);
+    JsonObject data = jelement.getAsJsonObject();
+    data = data.getAsJsonObject("data");
+    JsonPrimitive type = data.getAsJsonPrimitive("type");
+    System.out.println(type);
+    JsonObject attributes = data.getAsJsonObject("attributes");
+    String result = attributes.get("email").toString();
+    System.out.println(result);
+    return result;
   }
 
   private void authenticate(String email, String password) throws Exception {
