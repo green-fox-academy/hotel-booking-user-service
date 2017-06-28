@@ -16,6 +16,7 @@ import org.mindrot.jbcrypt.BCrypt;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
@@ -77,6 +78,21 @@ public class UserServiceController {
     String result = attributes.get("email").toString();
     System.out.println(result);
     return result;
+  }
+
+  @GetMapping("/createJson")
+  public String createJson() {
+    JsonObject jobject = new JsonObject();
+    JsonObject data = new JsonObject();
+    JsonObject attributes = new JsonObject();
+    jobject.add("data", data);
+    data.addProperty("type","user");
+    data.add("attributes", attributes);
+    attributes.addProperty("email", "dombo.peter@example.com");
+    attributes.addProperty("password","suchsecret");
+    System.out.println(jobject.toString());
+
+    return jobject.toString();
   }
 
   private void authenticate(String email, String password) throws Exception {
