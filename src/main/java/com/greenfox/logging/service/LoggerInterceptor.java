@@ -2,6 +2,7 @@ package com.greenfox.logging.service;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.web.client.HttpServerErrorException;
 import org.springframework.web.servlet.handler.HandlerInterceptorAdapter;
 
 import javax.servlet.http.HttpServletRequest;
@@ -14,8 +15,12 @@ public class LoggerInterceptor extends HandlerInterceptorAdapter {
 
   @Override
   public boolean preHandle(HttpServletRequest request, HttpServletResponse response,
-                           Object handler) throws IOException {
-    logger.info(request.getMethod() + " " + request.getRequestURI() + " endpoint called");
+                           Object handler, HttpServerErrorException error) throws IOException {
+    if (response.getStatus() > 399){
+      logger.error(request.getMethod() + " " + request.getRequestURI() + " endpoint called");
+    } else {
+      logger.info(request.getMethod() + " " + request.getRequestURI() + " endpoint called");
+    }
     return true;
   }
 }
