@@ -41,7 +41,7 @@ public class UserServiceController {
     String email = attributes.getEmail();
     String password = attributes.getPassword();
 
-    if (checkAccount(email)) {
+    if (!checkAccount(email)) {
       return new ResponseEntity<>(HttpStatus.CONFLICT);
     } else {
       String pw_hashed = BCrypt
@@ -66,33 +66,6 @@ public class UserServiceController {
     } catch (NoSuchAccountException|InvalidPasswordException e) {
       return new ResponseEntity<>(HttpStatus.UNAUTHORIZED);
     }
-  }
-
-  public String parseJson(String json) {
-    JsonElement jelement = new JsonParser().parse(json);
-    JsonObject data = jelement.getAsJsonObject();
-    data = data.getAsJsonObject("data");
-    JsonPrimitive type = data.getAsJsonPrimitive("type");
-    System.out.println(type);
-    JsonObject attributes = data.getAsJsonObject("attributes");
-    String result = attributes.get("email").toString();
-    System.out.println(result);
-    return result;
-  }
-
-  @GetMapping("/createJson")
-  public String createJson() {
-    JsonObject jobject = new JsonObject();
-    JsonObject data = new JsonObject();
-    JsonObject attributes = new JsonObject();
-    jobject.add("data", data);
-    data.addProperty("type","user");
-    data.add("attributes", attributes);
-    attributes.addProperty("email", "dombo.peter@example.com");
-    attributes.addProperty("password","suchsecret");
-    System.out.println(jobject.toString());
-
-    return jobject.toString();
   }
 
   private void authenticate(String email, String password) throws Exception {
