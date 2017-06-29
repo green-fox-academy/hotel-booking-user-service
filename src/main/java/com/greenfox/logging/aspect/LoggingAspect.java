@@ -2,9 +2,7 @@ package com.greenfox.logging.aspect;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import org.aspectj.lang.JoinPoint;
 import org.aspectj.lang.annotation.After;
-import org.aspectj.lang.annotation.AfterReturning;
 import org.aspectj.lang.annotation.Aspect;
 import org.aspectj.lang.annotation.Pointcut;
 import org.slf4j.Logger;
@@ -23,27 +21,43 @@ public class LoggingAspect {
   public void restController() {
   }
 
-  @AfterReturning(pointcut = "restController() && args(.., request)")
-  public void logInfoAdvice(HttpServletRequest request) {
+  @After("restController()")
+  public void logInfoAdvice() {
+    HttpServletRequest request = getRequest();
+    HttpServletResponse response = getResponse();
+    if (response.getStatus() < 400) {
       logger.info(request.getServerName() + " / HTTP-REQUEST " + request.getRequestURI());
     }
+  }
 
-  @AfterReturning(pointcut = "restController() && args(.., request)")
-  public void logErrorAdvice(HttpServletRequest request) {
-    HttpServletResponse response = ((ServletRequestAttributes) RequestContextHolder
-        .getRequestAttributes()).getResponse();
-    if (response.getStatus() == HttpServletResponse.SC_BAD_REQUEST) {
+  @After("restController()")
+  public void logErrorAdvice() {
+    HttpServletRequest request = getRequest();
+    HttpServletResponse response = getResponse();
+    if (response.getStatus() == HttpServletResponse.SC_BAD_REQUEST || request.getRequestURI().toString().equals("/error") )  {
       logger.error(request.getServerName() + " / HTTP-ERROR " + request.getRequestURI());
     }
   }
 
   @After("restController()")
-  public void logAfterThrowing(JoinPoint joinPoint) {
+  public void logAfterThrowing() {
+    HttpServletRequest request = getRequest();
+    HttpServletResponse response = getResponse();
+    if (response.getStatus() > 399) {
+      logger.error("Error status : " + response.getStatus() + " " + request.getRequestURI());
+    }
+  }
+
+  public HttpServletResponse getResponse(){
     HttpServletResponse response = ((ServletRequestAttributes) RequestContextHolder
         .getRequestAttributes()).getResponse();
-    if (response.getStatus() > 399) {
-      logger.error("Error status : " + response.getStatus());
-    }
+    return response;
+  }
+
+  public HttpServletRequest getRequest(){
+    HttpServletRequest request = ((ServletRequestAttributes) RequestContextHolder
+        .getRequestAttributes()).getRequest();
+    return request;
   }
 
 }

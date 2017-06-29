@@ -1,12 +1,11 @@
 package com.greenfox.register.controller;
 
-import com.greenfox.register.model.Attributes;
-import com.greenfox.register.service.JwtCreator;
 import com.greenfox.register.model.Account;
+import com.greenfox.register.model.Attributes;
 import com.greenfox.register.model.Data;
 import com.greenfox.register.model.RequestData;
 import com.greenfox.register.repository.AccountRepository;
-import javax.servlet.http.HttpServletRequest;
+import com.greenfox.register.service.JwtCreator;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -27,7 +26,7 @@ public class UserServiceController {
   }
 
   @PostMapping("/register")
-  public ResponseEntity saveAccount(@RequestBody RequestData data, HttpServletRequest request) throws Exception {
+  public ResponseEntity saveAccount(@RequestBody RequestData data) throws Exception {
     String jwt = jwtCreator.createJwt("hotel-booking-user-service","new user", 300000);
 
     Attributes attributes = (Attributes) data.getData().getAttributes();
