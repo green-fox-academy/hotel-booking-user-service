@@ -17,7 +17,8 @@ public class HeartbeatController {
   private HeartbeatService heartbeatService;
 
   @Autowired
-  public HeartbeatController(HeartbeatService heartbeatService, HeartbeatRepository heartbeatRepository) {
+  public HeartbeatController(HeartbeatService heartbeatService,
+      HeartbeatRepository heartbeatRepository) {
     this.heartbeatService = heartbeatService;
   }
 
