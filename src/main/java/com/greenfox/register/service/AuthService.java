@@ -16,7 +16,7 @@ public class AuthService {
 
   public void authenticate(String email, String password) throws Exception {
     Account account;
-    if (checkAccount(email)) {
+    if (!checkAccount(email)) {
       throw new NoSuchAccountException("Invalid email");
     } else {
       account = accountRepository.findAccountByEmail(email);
@@ -27,7 +27,7 @@ public class AuthService {
   }
 
   public boolean checkAccount(String email) {
-    return (accountRepository.findAccountByEmail(email) == null);
+    return (accountRepository.findAccountByEmail(email) != null);
   }
 
   public boolean checkPassword(String password, String pw_hashed) {
