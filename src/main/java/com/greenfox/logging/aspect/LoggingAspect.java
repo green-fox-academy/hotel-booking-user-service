@@ -23,28 +23,20 @@ public class LoggingAspect {
 
   @After("restController()")
   public void logInfoAdvice() {
-    HttpServletRequest request = getRequest();
-    HttpServletResponse response = getResponse();
-    if (response.getStatus() < 400) {
-      logger.info(request.getServerName() + " / HTTP-REQUEST " + request.getRequestURI());
-    }
+      logger.info(getRequest().getServerName() + " / HTTP-REQUEST " + getRequest().getRequestURI());
   }
 
   @After("restController()")
   public void logErrorAdvice() {
-    HttpServletRequest request = getRequest();
-    HttpServletResponse response = getResponse();
-    if (response.getStatus() == HttpServletResponse.SC_BAD_REQUEST || request.getRequestURI().toString().equals("/error") )  {
-      logger.error(request.getServerName() + " / HTTP-ERROR " + request.getRequestURI());
+    if (getResponse().getStatus() == HttpServletResponse.SC_BAD_REQUEST || getRequest().getRequestURI().equals("/error") )  {
+      logger.error(getRequest().getServerName() + " / HTTP-ERROR " + getRequest().getRequestURI());
     }
   }
 
   @After("restController()")
-  public void logAfterThrowing() {
-    HttpServletRequest request = getRequest();
-    HttpServletResponse response = getResponse();
-    if (response.getStatus() > 399) {
-      logger.error("Error status : " + response.getStatus() + " " + request.getRequestURI());
+  public void logAfterThrowingAdvice() {
+    if (getResponse().getStatus() > 399) {
+      logger.error("Error status : " + getResponse().getStatus() + " " + getRequest().getRequestURI());
     }
   }
 
