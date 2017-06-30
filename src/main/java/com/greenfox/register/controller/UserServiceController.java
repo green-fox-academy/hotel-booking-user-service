@@ -8,6 +8,7 @@ import com.greenfox.register.service.GsonService;
 import com.greenfox.register.service.JwtCreator;
 import com.greenfox.register.model.Account;
 import com.greenfox.register.repository.AccountRepository;
+import com.greenfox.register.service.JwtCreator;
 import org.mindrot.jbcrypt.BCrypt;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
