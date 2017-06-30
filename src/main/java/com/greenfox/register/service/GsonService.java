@@ -3,7 +3,6 @@ package com.greenfox.register.service;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
-import com.google.gson.JsonPrimitive;
 import com.greenfox.register.model.Credentials;
 import org.springframework.stereotype.Service;
 
@@ -29,7 +28,6 @@ public class GsonService {
     data.add("attributes", attributes);
     attributes.addProperty("id", id.toString());
     attributes.addProperty("email",email);
-    System.out.println(email);
     attributes.addProperty("admin",admin);
     attributes.addProperty("token",token);
     return jobject.toString();
