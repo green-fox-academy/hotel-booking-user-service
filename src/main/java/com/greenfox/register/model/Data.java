@@ -1,6 +1,8 @@
 package com.greenfox.register.model;
 
-public class Data {
+import org.springframework.hateoas.ResourceSupport;
+
+public class Data extends ResourceSupport {
   private String type;
   private Object attributes;
 
