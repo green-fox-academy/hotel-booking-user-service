@@ -11,7 +11,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
@@ -28,7 +27,9 @@ public class Controller {
   public ResponseEntity returnUsers() {
     Iterable<Account> users = accountRepository.findAll();
     Data data = new Data("user", users);
-    data.add(linkTo(methodOn(Controller.class).returnUsers()).withSelfRel());
+    data.add(linkTo(methodOn(Controller.class).returnUsers()).withRel("self"));
+    data.add(linkTo(methodOn(Controller.class).returnUsers()).withRel("next"));
+    data.add(linkTo(methodOn(Controller.class).returnUsers()).withRel("last"));
     RequestData requestData = new RequestData(data);
     return new ResponseEntity<>(requestData, HttpStatus.OK);
   }
