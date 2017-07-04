@@ -1,16 +1,21 @@
 package com.greenfox.users;
 
+import com.greenfox.guardian.model.Error;
+import com.greenfox.guardian.model.ErrorResponse;
 import com.greenfox.register.model.Account;
 import com.greenfox.register.model.Data;
 import com.greenfox.register.model.RequestData;
 import com.greenfox.register.repository.AccountRepository;
 import com.greenfox.users.model.Links;
+import java.util.ArrayList;
+import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -29,12 +34,8 @@ public class Controller {
   }
 
   @GetMapping("/api/users")
-  public ResponseEntity returnUsers(@RequestParam(value = "page", required = false) Integer page, @RequestParam(value = "admin", required = false) boolean admin,
+  public ResponseEntity returnUsers(@RequestParam(value = "page", required = false, defaultValue = "0") Integer page, @RequestParam(value = "admin", required = false) boolean admin,
       HttpServletRequest request) {
-
-    if (page == null) {
-      page = 0;
-    }
 
     if (isAdminQuery(request)) {
       responsePage = adminFilterService(admin, page);
@@ -75,4 +76,28 @@ public class Controller {
     }
     return false;
   }
+
+  @GetMapping("/api/users/{userId}")
+  public ResponseEntity returnUsers(@PathVariable(required = false) Long userId, HttpServletRequest request) {
+    Links links = new Links();
+
+    if (!(accountRepository.findOneById(userId, new PageRequest(0, 1)).getContent().size() == 0)) {
+      responsePage = accountRepository.findOneById(userId, new PageRequest(0, 1));
+    } else {
+      List<Error> tempList = new ArrayList<>();
+      Error tempError = new Error("404",
+          "Not Found",
+          "No users found by id: " + userId);
+      tempList.add(tempError);
+      ErrorResponse tempResp = new ErrorResponse(tempList);
+      return new ResponseEntity<>(tempResp, HttpStatus.NOT_FOUND);
+    }
+
+    links.setSelf(request.getRequestURL().toString() + (request.getQueryString() != null ? "?" + request.getQueryString() : ""));
+
+    Data data = new Data(links, "user", responsePage.getContent());
+    RequestData requestData = new RequestData(data);
+    return new ResponseEntity<>(requestData, HttpStatus.OK);
+  }
+
 }
