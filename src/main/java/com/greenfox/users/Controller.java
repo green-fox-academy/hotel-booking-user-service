@@ -5,7 +5,6 @@ import com.greenfox.register.model.Data;
 import com.greenfox.register.model.RequestData;
 import com.greenfox.register.repository.AccountRepository;
 import com.greenfox.users.model.Links;
-import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -16,6 +15,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import javax.servlet.http.HttpServletRequest;
+import java.util.Enumeration;
 
 @RestController
 public class Controller {
@@ -30,6 +30,13 @@ public class Controller {
   @GetMapping("/api/users")
   public ResponseEntity returnUsers(@RequestParam(value = "page", required = false) Integer page, @RequestParam(value = "admin", required = false) boolean admin,
       HttpServletRequest request) {
+
+
+    if (isAdminQuery(request)) {
+      adminFilterService();
+    }
+
+
     if (page == null) {
       page = 0;
     }
@@ -56,5 +63,17 @@ public class Controller {
     Data data = new Data(links, "user", usersByRole.getContent());
     RequestData requestData = new RequestData(data);
     return new ResponseEntity<>(requestData, HttpStatus.OK);
+  }
+
+  public boolean isAdminQuery(HttpServletRequest request) {
+    Enumeration parameterNames = request.getParameterNames();
+
+    while (parameterNames.hasMoreElements()) {
+      String parameterName = parameterNames.nextElement().toString();
+      if (parameterName.equals("admin")) {
+        return true;
+      }
+    }
+    return false;
   }
 }

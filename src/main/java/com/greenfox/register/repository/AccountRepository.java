@@ -1,7 +1,6 @@
 package com.greenfox.register.repository;
 
 import com.greenfox.register.model.Account;
-import java.util.List;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.repository.PagingAndSortingRepository;
