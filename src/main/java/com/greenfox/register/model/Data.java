@@ -1,17 +1,32 @@
 package com.greenfox.register.model;
 
-import org.springframework.hateoas.ResourceSupport;
+import com.greenfox.users.model.Link;
 
-public class Data extends ResourceSupport {
+public class Data {
+  private Link links;
   private String type;
   private Object attributes;
 
   public Data() {
   }
 
+  public Data(Link links, String type, Object attributes) {
+    this.links = links;
+    this.type = type;
+    this.attributes = attributes;
+  }
+
   public Data(String type, Object attributes) {
     this.type = type;
     this.attributes = attributes;
+  }
+
+  public Link getLinks() {
+    return links;
+  }
+
+  public void setLinks(Link links) {
+    this.links = links;
   }
 
   public String getType() {
