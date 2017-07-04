@@ -27,30 +27,27 @@ public class Controller {
   }
 
   @GetMapping("/api/users")
-  public ResponseEntity returnUsers(@RequestParam(required = false) Integer page, HttpServletRequest request) {
+  public ResponseEntity returnUsers(@RequestParam(required = false) Integer page,
+      HttpServletRequest request) {
     if (page == null) {
       page = 0;
     }
-    Page<Account> usersPage = accountRepository.findAll(new PageRequest(page,2));
+    Page<Account> usersPage = accountRepository.findAll(new PageRequest(page, 2));
     Links links = new Links();
 
-    if (request.getParameter("page") != null) {
-      links.setSelf(request.getRequestURL().toString() + "?page=" + (page));
-    } else {
-      links.setSelf(request.getRequestURL().toString());
-    }
-
-
-    if(usersPage.hasNext()) {
+    links.setSelf(
+        request.getRequestURL().toString() + (request.getQueryString() != null ? "?" + request
+            .getQueryString() : ""));
+    if (usersPage.hasNext()) {
       links.setNext(request.getRequestURL() + "?page=" + (page + 1));
       links.setLast(request.getRequestURL() + "?page=" + usersPage.getTotalPages());
     }
     if (usersPage.hasPrevious()) {
-      links.setPrev(request.getRequestURL() + "?page=" + (page - 1));
+      links.setPrev(request.getRequestURL() + (request.getQueryString().endsWith("page=1") ? "" : "?page=" + (page - 1)));
     }
 
     System.out.println(usersPage.toString());
-    Data data = new Data(links,"user", usersPage);
+    Data data = new Data(links, "user", usersPage);
     RequestData requestData = new RequestData(data);
     return new ResponseEntity<>(requestData, HttpStatus.OK);
   }
