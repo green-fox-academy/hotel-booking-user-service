@@ -32,27 +32,26 @@ public class Controller {
   public ResponseEntity returnUsers(@RequestParam(value = "page", required = false) Integer page, @RequestParam(value = "admin", required = false) boolean admin,
       HttpServletRequest request) {
 
-    if (isAdminQuery(request)) {
-      System.out.println("if");
-      responsePage = adminFilterService(admin, page);
-    }
-
     if (page == null) {
       page = 0;
     }
 
-    Object requestedPage = new Object();
-    Page<Account> usersPage = accountRepository.findAll(new PageRequest(page, 2));
+    if (isAdminQuery(request)) {
+      responsePage = adminFilterService(admin, page);
+    } else {
+      responsePage = accountRepository.findAll(new PageRequest(page, 2));
+    }
+
     Links links = new Links();
 
     links.setSelf(
         request.getRequestURL().toString() + (request.getQueryString() != null ? "?" + request
             .getQueryString() : ""));
-    if (usersPage.hasNext()) {
+    if (responsePage.hasNext()) {
       links.setNext(request.getRequestURL() + "?page=" + (page + 1));
-      links.setLast(request.getRequestURL() + "?page=" + usersPage.getTotalPages());
+      links.setLast(request.getRequestURL() + "?page=" + responsePage.getTotalPages());
     }
-    if (usersPage.hasPrevious()) {
+    if (responsePage.hasPrevious()) {
       links.setPrev(request.getRequestURL() + (request.getQueryString().endsWith("page=1") ? "" : "?page=" + (page - 1)));
     }
 
@@ -62,7 +61,6 @@ public class Controller {
   }
 
   public Page<Account> adminFilterService(boolean admin, int page){
-    System.out.println(accountRepository.findAllByAdmin(admin, new PageRequest(page, 2)));
     return accountRepository.findAllByAdmin(admin, new PageRequest(page, 2));
   }
 
