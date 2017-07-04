@@ -2,7 +2,7 @@ package com.greenfox.users.model;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
 
-public class Link {
+public class Links {
 
   private String self;
   @JsonInclude(JsonInclude.Include.NON_NULL)

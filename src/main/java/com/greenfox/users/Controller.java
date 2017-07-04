@@ -4,8 +4,9 @@ import com.greenfox.register.model.Account;
 import com.greenfox.register.model.Data;
 import com.greenfox.register.model.RequestData;
 import com.greenfox.register.repository.AccountRepository;
-import com.greenfox.users.model.Link;
+import com.greenfox.users.model.Links;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -30,11 +31,26 @@ public class Controller {
     if (page == null) {
       page = 0;
     }
-    Iterable<Account> users = accountRepository.findAll(new PageRequest(page,20));
-    System.out.println(new PageRequest(0, 1));
-    Link link = new Link();
-    link.setSelf(request.getRequestURI());
-    Data data = new Data("user", users);
+    Page<Account> usersPage = accountRepository.findAll(new PageRequest(page,2));
+    Links links = new Links();
+
+    if (request.getParameter("page") != null) {
+      links.setSelf(request.getRequestURL().toString() + "?page=" + (page));
+    } else {
+      links.setSelf(request.getRequestURL().toString());
+    }
+
+
+    if(usersPage.hasNext()) {
+      links.setNext(request.getRequestURL() + "?page=" + (page + 1));
+      links.setLast(request.getRequestURL() + "?page=" + usersPage.getTotalPages());
+    }
+    if (usersPage.hasPrevious()) {
+      links.setPrev(request.getRequestURL() + "?page=" + (page - 1));
+    }
+
+    System.out.println(usersPage.toString());
+    Data data = new Data(links,"user", usersPage);
     RequestData requestData = new RequestData(data);
     return new ResponseEntity<>(requestData, HttpStatus.OK);
   }

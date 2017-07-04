@@ -1,16 +1,16 @@
 package com.greenfox.register.model;
 
-import com.greenfox.users.model.Link;
+import com.greenfox.users.model.Links;
 
 public class Data {
-  private Link links;
+  private Links links;
   private String type;
   private Object attributes;
 
   public Data() {
   }
 
-  public Data(Link links, String type, Object attributes) {
+  public Data(Links links, String type, Object attributes) {
     this.links = links;
     this.type = type;
     this.attributes = attributes;
@@ -21,11 +21,11 @@ public class Data {
     this.attributes = attributes;
   }
 
-  public Link getLinks() {
+  public Links getLinks() {
     return links;
   }
 
-  public void setLinks(Link links) {
+  public void setLinks(Links links) {
     this.links = links;
   }
 
