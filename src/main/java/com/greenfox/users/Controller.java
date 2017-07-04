@@ -21,6 +21,7 @@ import java.util.Enumeration;
 public class Controller {
 
   private AccountRepository accountRepository;
+  private Page<Account> responsePage;
 
   @Autowired
   public Controller(AccountRepository accountRepository) {
@@ -31,11 +32,10 @@ public class Controller {
   public ResponseEntity returnUsers(@RequestParam(value = "page", required = false) Integer page, @RequestParam(value = "admin", required = false) boolean admin,
       HttpServletRequest request) {
 
-
     if (isAdminQuery(request)) {
-      adminFilterService();
+      System.out.println("if");
+      responsePage = adminFilterService(admin, page);
     }
-
 
     if (page == null) {
       page = 0;
@@ -56,13 +56,14 @@ public class Controller {
       links.setPrev(request.getRequestURL() + (request.getQueryString().endsWith("page=1") ? "" : "?page=" + (page - 1)));
     }
 
-    Page<Account> usersByRole = accountRepository.findAllByAdmin(admin, new PageRequest(page, 2));
-
-    System.out.println(usersPage.toString());
-
-    Data data = new Data(links, "user", usersByRole.getContent());
+    Data data = new Data(links, "user", responsePage.getContent());
     RequestData requestData = new RequestData(data);
     return new ResponseEntity<>(requestData, HttpStatus.OK);
+  }
+
+  public Page<Account> adminFilterService(boolean admin, int page){
+    System.out.println(accountRepository.findAllByAdmin(admin, new PageRequest(page, 2)));
+    return accountRepository.findAllByAdmin(admin, new PageRequest(page, 2));
   }
 
   public boolean isAdminQuery(HttpServletRequest request) {
