@@ -25,16 +25,16 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
-public class UserCRUDController {
+public class UserCrudController {
 
-  @Autowired
   AccountRepository accountRepository;
   Page<Account> responsePage;
   UserCrudService userCrudService;
 
   @Autowired
-  public UserCRUDController(AccountRepository accountRepository) {
+  public UserCrudController(AccountRepository accountRepository, UserCrudService userCrudService) {
     this.accountRepository = accountRepository;
+    this.userCrudService = userCrudService;
   }
 
   @GetMapping("/api/users")
@@ -43,15 +43,18 @@ public class UserCRUDController {
       @RequestParam(value = "admin", required = false) boolean admin,
       HttpServletRequest request) {
 
-    if (userCrudService.isInQuery(request, "admin")) {
-      responsePage = userCrudService.adminFilterService(admin, page);
-      System.out.println(userCrudService.getQueryValue(request, "admin"));
-    } else {
-      responsePage = accountRepository.findAll(new PageRequest(page, 20));
-    }
+    getUsersPage(request, admin, page);
+    RequestData response = createResponse(buildLinks(request, page), "user", responsePage.getContent());
+    return new ResponseEntity<>(response, HttpStatus.OK);
+  }
 
+  private RequestData createResponse(Links links, String type, Object attributes) {
+    Data data = new Data(links, type, attributes);
+    return new RequestData(data);
+  }
+
+  private Links buildLinks(HttpServletRequest request, int page) {
     Links links = new Links();
-
     links.setSelf(
         request.getRequestURL().toString() + (request.getQueryString() != null ? "?" + request
             .getQueryString() : ""));
@@ -63,17 +66,22 @@ public class UserCRUDController {
       links.setPrev(request.getRequestURL() + (request.getQueryString().endsWith("page=1") ? ""
           : "?page=" + (page - 1)));
     }
+    return links;
+  }
 
-    Data data = new Data(links, "user", responsePage.getContent());
-    RequestData requestData = new RequestData(data);
-    return new ResponseEntity<>(requestData, HttpStatus.OK);
+  private Page getUsersPage(HttpServletRequest request, boolean admin, int page) {
+    if (userCrudService.isInQuery(request, "admin")) {
+      responsePage = userCrudService.getUsers(admin, page);
+    } else {
+      responsePage = accountRepository.findAll(new PageRequest(page, 20));
+    }
+    return responsePage;
   }
 
 
   @GetMapping("/api/users/{userId}")
   public ResponseEntity returnUser(@PathVariable(required = false) Long userId,
       HttpServletRequest request) {
-    Links links = new Links();
 
     if (!(accountRepository.findOneById(userId, new PageRequest(0, 1)).getContent().size() == 0)) {
       responsePage = accountRepository.findOneById(userId, new PageRequest(0, 1));
@@ -87,13 +95,8 @@ public class UserCRUDController {
       return new ResponseEntity<>(tempResp, HttpStatus.NOT_FOUND);
     }
 
-    links.setSelf(
-        request.getRequestURL().toString() + (request.getQueryString() != null ? "?" + request
-            .getQueryString() : ""));
-
-    Data data = new Data(links, "user", responsePage.getContent());
-    RequestData requestData = new RequestData(data);
-    return new ResponseEntity<>(requestData, HttpStatus.OK);
+    RequestData response = createResponse(buildLinks(request, 0), "user", responsePage.getContent());
+    return new ResponseEntity<>(response, HttpStatus.OK);
   }
 
   @DeleteMapping(value = "/api/users/{userId}", produces = "application/json")

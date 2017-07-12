@@ -18,7 +18,7 @@ public class UserCrudService {
   private AccountRepository accountRepository;
   private Page<Account> responsePage;
 
-  public Page<Account> adminFilterService(boolean admin, int page) {
+  public Page<Account> getUsers(boolean admin, int page) {
     return accountRepository.findAllByAdmin(admin, new PageRequest(page, 2));
   }
 
