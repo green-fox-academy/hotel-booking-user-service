@@ -20,13 +20,13 @@ import java.util.Enumeration;
 import java.util.List;
 
 @RestController
-public class Controller {
+public class UserCRUDController {
 
   private AccountRepository accountRepository;
   private Page<Account> responsePage;
 
   @Autowired
-  public Controller(AccountRepository accountRepository) {
+  public UserCRUDController(AccountRepository accountRepository) {
     this.accountRepository = accountRepository;
   }
 
@@ -37,7 +37,7 @@ public class Controller {
     if (isAdminQuery(request)) {
       responsePage = adminFilterService(admin, page);
     } else {
-      responsePage = accountRepository.findAll(new PageRequest(page, 2));
+      responsePage = accountRepository.findAll(new PageRequest(page, 20));
     }
 
     Links links = new Links();
