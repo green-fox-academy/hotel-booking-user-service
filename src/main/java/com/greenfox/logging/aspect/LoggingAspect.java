@@ -7,6 +7,7 @@ import org.aspectj.lang.annotation.Aspect;
 import org.aspectj.lang.annotation.Pointcut;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import org.springframework.web.context.request.RequestContextHolder;
 import org.springframework.web.context.request.ServletRequestAttributes;
@@ -23,33 +24,35 @@ public class LoggingAspect {
 
   @After("restController()")
   public void logInfoAdvice() {
-      logger.info(getRequest().getServerName() + " / HTTP-REQUEST " + getRequest().getRequestURI());
+    logger.info(getRequest().getServerName() + " / HTTP-REQUEST " + getRequest().getRequestURI());
   }
 
   @After("restController()")
   public void logErrorAdvice() {
-    if (getResponse().getStatus() == HttpServletResponse.SC_BAD_REQUEST || getRequest().getRequestURI().equals("/error") )  {
+    if (getResponse().getStatus() == HttpServletResponse.SC_BAD_REQUEST || getRequest()
+        .getRequestURI().equals("/error")) {
       logger.error(getRequest().getServerName() + " / HTTP-ERROR " + getRequest().getRequestURI());
     }
   }
 
   @After("restController()")
   public void logAfterThrowingAdvice() {
-    if (getResponse().getStatus() > 399) {
-      logger.error("Error status : " + getResponse().getStatus() + " " + getRequest().getRequestURI());
+    HttpStatus status = HttpStatus.valueOf(getResponse().getStatus());
+    if (status.is4xxClientError() || status.is5xxServerError()) {
+      logger.error(
+          "Error status : " + status + " " + getRequest().getRequestURI());
     }
   }
 
-  public HttpServletResponse getResponse(){
+  public HttpServletResponse getResponse() {
     HttpServletResponse response = ((ServletRequestAttributes) RequestContextHolder
         .getRequestAttributes()).getResponse();
     return response;
   }
 
-  public HttpServletRequest getRequest(){
+  public HttpServletRequest getRequest() {
     HttpServletRequest request = ((ServletRequestAttributes) RequestContextHolder
         .getRequestAttributes()).getRequest();
     return request;
   }
-
 }
