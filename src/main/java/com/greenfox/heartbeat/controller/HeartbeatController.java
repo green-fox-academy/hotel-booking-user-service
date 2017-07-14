@@ -1,7 +1,6 @@
 package com.greenfox.heartbeat.controller;
 
 import com.greenfox.heartbeat.model.Heartbeat;
-import com.greenfox.heartbeat.repository.HeartbeatRepository;
 import com.greenfox.heartbeat.service.HeartbeatService;
 import com.greenfox.rabbitmq.model.Consume;
 import com.greenfox.rabbitmq.model.Send;
@@ -17,8 +16,7 @@ public class HeartbeatController {
   private HeartbeatService heartbeatService;
 
   @Autowired
-  public HeartbeatController(HeartbeatService heartbeatService,
-      HeartbeatRepository heartbeatRepository) {
+  public HeartbeatController(HeartbeatService heartbeatService) {
     this.heartbeatService = heartbeatService;
   }
 
