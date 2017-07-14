@@ -42,60 +42,20 @@ public class UserCrudController {
       @RequestParam(value = "page", required = false, defaultValue = "0") Integer page,
       @RequestParam(value = "admin", required = false) boolean admin,
       HttpServletRequest request) {
-
-    getUsersPage(request, admin, page);
-    RequestData response = createResponse(buildLinks(request, page), "user", responsePage.getContent());
+    responsePage = userCrudService.getUsersPage(request, admin, page);
+    RequestData response = userCrudService.createResponse(userCrudService.buildLinks(request, page), "user", responsePage.getContent());
     return new ResponseEntity<>(response, HttpStatus.OK);
   }
-
-  private RequestData createResponse(Links links, String type, Object attributes) {
-    Data data = new Data(links, type, attributes);
-    return new RequestData(data);
-  }
-
-  private Links buildLinks(HttpServletRequest request, int page) {
-    Links links = new Links();
-    links.setSelf(
-        request.getRequestURL().toString() + (request.getQueryString() != null ? "?" + request
-            .getQueryString() : ""));
-    if (responsePage.hasNext()) {
-      links.setNext(request.getRequestURL() + "?page=" + (page + 1));
-      links.setLast(request.getRequestURL() + "?page=" + responsePage.getTotalPages());
-    }
-    if (responsePage.hasPrevious()) {
-      links.setPrev(request.getRequestURL() + (request.getQueryString().endsWith("page=1") ? ""
-          : "?page=" + (page - 1)));
-    }
-    return links;
-  }
-
-  private Page getUsersPage(HttpServletRequest request, boolean admin, int page) {
-    if (userCrudService.isInQuery(request, "admin")) {
-      responsePage = userCrudService.getUsers(admin, page);
-    } else {
-      responsePage = accountRepository.findAll(new PageRequest(page, 20));
-    }
-    return responsePage;
-  }
-
 
   @GetMapping("/api/users/{userId}")
   public ResponseEntity returnUser(@PathVariable(required = false) Long userId,
       HttpServletRequest request) {
-
     if (!(accountRepository.findOneById(userId, new PageRequest(0, 1)).getContent().size() == 0)) {
       responsePage = accountRepository.findOneById(userId, new PageRequest(0, 1));
     } else {
-      List<Error> tempList = new ArrayList<>();
-      Error tempError = new Error("404",
-          "Not Found",
-          "No users found by id: " + userId);
-      tempList.add(tempError);
-      ErrorResponse tempResp = new ErrorResponse(tempList);
-      return new ResponseEntity<>(tempResp, HttpStatus.NOT_FOUND);
+      return new ResponseEntity<>(userCrudService.createErrorResponse(userId), HttpStatus.NOT_FOUND);
     }
-
-    RequestData response = createResponse(buildLinks(request, 0), "user", responsePage.getContent());
+    RequestData response = userCrudService.createResponse(userCrudService.buildLinks(request, 0), "user", responsePage.getContent());
     return new ResponseEntity<>(response, HttpStatus.OK);
   }
 
@@ -106,13 +66,7 @@ public class UserCrudController {
       accountRepository.delete(userId);
       return new ResponseEntity<>("{}", HttpStatus.OK);
     } else {
-      List<Error> tempList = new ArrayList<>();
-      Error tempError = new Error("404",
-          "Not Found",
-          "No users found by id: " + userId);
-      tempList.add(tempError);
-      ErrorResponse tempResp = new ErrorResponse(tempList);
-      return new ResponseEntity<>(tempResp, HttpStatus.NOT_FOUND);
+      return new ResponseEntity<>(userCrudService.createErrorResponse(userId), HttpStatus.NOT_FOUND);
     }
   }
 
@@ -120,20 +74,13 @@ public class UserCrudController {
   public ResponseEntity updateUser(@PathVariable(required = false) Long userId,
       HttpServletRequest request, @RequestBody RequestData requestData) {
     if (!(accountRepository.findOneById(userId, new PageRequest(0, 1)).getContent().size() == 0)) {
-      System.out.println(requestData);
       Account accountToUpdate = accountRepository.findOne(userId);
       accountToUpdate.setId(userId + 1);
       accountToUpdate.setAdmin(false);
       accountRepository.save(accountToUpdate);
       return new ResponseEntity<>("{}", HttpStatus.OK);
     } else {
-      List<Error> tempList = new ArrayList<>();
-      Error tempError = new Error("404",
-          "Not Found",
-          "No users found by id: " + userId);
-      tempList.add(tempError);
-      ErrorResponse tempResp = new ErrorResponse(tempList);
-      return new ResponseEntity<>(tempResp, HttpStatus.NOT_FOUND);
+      return new ResponseEntity<>(userCrudService.createErrorResponse(userId), HttpStatus.NOT_FOUND);
     }
   }
 }
