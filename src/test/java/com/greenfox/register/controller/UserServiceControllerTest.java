@@ -7,9 +7,9 @@ import static org.springframework.test.web.servlet.setup.MockMvcBuilders.webAppC
 
 import com.google.gson.JsonObject;
 import com.greenfox.UserServiceApplication;
-import com.greenfox.register.model.Account;
-import com.greenfox.register.repository.AccountRepository;
-import com.greenfox.register.service.JwtCreator;
+import com.greenfox.model.Account;
+import com.greenfox.repository.AccountRepository;
+import com.greenfox.service.JwtCreator;
 import org.junit.Before;
 import org.junit.FixMethodOrder;
 import org.junit.Test;

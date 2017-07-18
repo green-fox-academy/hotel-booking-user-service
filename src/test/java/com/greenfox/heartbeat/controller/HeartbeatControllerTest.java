@@ -1,10 +1,10 @@
 package com.greenfox.heartbeat.controller;
 
 import com.greenfox.UserServiceApplication;
-import com.greenfox.heartbeat.model.Status;
-import com.greenfox.heartbeat.repository.HeartbeatRepository;
-import com.greenfox.rabbitmq.service.MockRabbitService;
-import com.greenfox.rabbitmq.service.RabbitService;
+import com.greenfox.model.Status;
+import com.greenfox.repository.HeartbeatRepository;
+import com.greenfox.service.MockRabbitService;
+import com.greenfox.service.RabbitService;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
