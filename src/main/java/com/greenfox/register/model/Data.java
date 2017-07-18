@@ -41,7 +41,7 @@ public class Data {
     this.type = type;
   }
 
-  public void setAttributes(Attributes attributes) {
+  public void setAttributes(Account attributes) {
     this.attributes = attributes;
   }
 }

@@ -1,6 +1,6 @@
 package com.greenfox.register.model;
 
-public class Credentials {
+public class Credentials implements Attributes {
   private String email;
   private String password;
 
