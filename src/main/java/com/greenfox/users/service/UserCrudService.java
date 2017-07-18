@@ -3,6 +3,7 @@ package com.greenfox.users.service;
 import com.greenfox.guardian.model.Error;
 import com.greenfox.guardian.model.ErrorResponse;
 import com.greenfox.register.model.Account;
+import com.greenfox.register.model.Attributes;
 import com.greenfox.register.model.Data;
 import com.greenfox.register.model.RequestData;
 import com.greenfox.register.repository.AccountRepository;

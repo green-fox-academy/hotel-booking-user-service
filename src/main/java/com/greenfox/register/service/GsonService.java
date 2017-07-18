@@ -3,20 +3,20 @@ package com.greenfox.register.service;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
-import com.greenfox.register.model.Credentials;
+import com.greenfox.register.model.Account;
 import org.springframework.stereotype.Service;
 
 @Service
 public class GsonService {
 
-  public Credentials parseCredentials(String json) {
+  public Account parseCredentials(String json) {
     JsonElement jelement = new JsonParser().parse(json);
     JsonObject data = jelement.getAsJsonObject();
     data = data.getAsJsonObject("data");
     JsonObject attributes = data.getAsJsonObject("attributes");
     String email = attributes.get("email").getAsString();
     String password = attributes.get("password").getAsString();
-    return new Credentials(email,password);
+    return new Account(email,password);
   }
 
   public String createAccountJson(Long id, String email, boolean admin, String token) {

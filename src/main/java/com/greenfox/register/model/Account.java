@@ -2,19 +2,25 @@ package com.greenfox.register.model;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
+import com.fasterxml.jackson.annotation.JsonInclude;
+import com.fasterxml.jackson.annotation.JsonInclude.Include;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 
 @Entity(name="account")
-public class Account {
+public class Account implements Attributes {
 
   @Id
   @GeneratedValue(strategy = GenerationType.IDENTITY)
+  @JsonInclude(Include.NON_NULL)
   private Long id;
+  @JsonInclude(Include.NON_NULL)
   private String email;
+  @JsonInclude(Include.NON_NULL)
   private boolean admin;
+  @JsonInclude(Include.NON_NULL)
   private String token;
   @JsonIgnore
   private String password;
@@ -50,7 +56,10 @@ public class Account {
     this.password = password;
   }
 
-
+  public Account(String email, String password) {
+    this.email = email;
+    this.password = password;
+  }
 
   public Long getId() {
     return id;
