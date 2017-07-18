@@ -1,7 +1,6 @@
 package com.greenfox.guardian.model;
 
 public class Error {
-
   private String status;
   private String title;
   private String detail;

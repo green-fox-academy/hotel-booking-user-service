@@ -12,14 +12,11 @@ public class ErrOutFilter extends AbstractMatcherFilter {
 
   @Override
   public FilterReply decide(Object event) {
-
     if (!isStarted()) {
       return FilterReply.NEUTRAL;
     }
-
     LoggingEvent loggingEvent = (LoggingEvent) event;
     List<Level> eventsToKeep = Arrays.asList(Level.WARN, Level.ERROR);
-
     return eventsToKeep.contains(loggingEvent.getLevel()) ? FilterReply.NEUTRAL : FilterReply.DENY;
   }
 }

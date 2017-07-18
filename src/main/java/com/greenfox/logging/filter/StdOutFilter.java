@@ -15,9 +15,7 @@ public class StdOutFilter extends AbstractMatcherFilter {
     if (!isStarted()) {
       return FilterReply.NEUTRAL;
     }
-
     LoggingEvent loggingEvent = (LoggingEvent) event;
-
     List<Level> eventsToKeep = Arrays.asList(Level.TRACE, Level.DEBUG, Level.INFO);
     return eventsToKeep.contains(loggingEvent.getLevel()) ? FilterReply.NEUTRAL : FilterReply.DENY;
   }
