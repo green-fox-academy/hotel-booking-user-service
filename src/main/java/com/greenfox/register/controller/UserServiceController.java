@@ -2,13 +2,11 @@ package com.greenfox.register.controller;
 
 import com.greenfox.register.exception.InvalidPasswordException;
 import com.greenfox.register.exception.NoSuchAccountException;
-import com.greenfox.register.model.Credentials;
 import com.greenfox.register.service.AuthService;
 import com.greenfox.register.service.GsonService;
 import com.greenfox.register.service.JwtCreator;
 import com.greenfox.register.model.Account;
 import com.greenfox.register.repository.AccountRepository;
-import com.greenfox.register.service.JwtCreator;
 import org.mindrot.jbcrypt.BCrypt;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -26,7 +24,7 @@ public class UserServiceController {
   private GsonService gsonService;
   private AuthService authService;
 
-  private Credentials credentials;
+  private Account credentials;
   private String jwt;
   private String pw_hashed;
   private Account responseAccount;
@@ -42,9 +40,7 @@ public class UserServiceController {
 
   @PostMapping(value = "/register", produces = "application/json")
   public ResponseEntity saveAccount(@RequestBody String json) throws Exception {
-
     credentials = getCredentials(json);
-
     if (isRegisteredUser()) {
       return new ResponseEntity<>(HttpStatus.CONFLICT);
     } else {
@@ -70,7 +66,7 @@ public class UserServiceController {
     }
   }
 
-  public Credentials getCredentials(String json) {
+  public Account getCredentials(String json) {
     return gsonService.parseCredentials(json);
   }
 

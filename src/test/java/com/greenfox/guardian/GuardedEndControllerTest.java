@@ -23,7 +23,7 @@ import static org.springframework.test.web.servlet.setup.MockMvcBuilders.webAppC
 @WebAppConfiguration
 @EnableWebMvc
 @ActiveProfiles("test")
-public class GuardedEndTest {
+public class GuardedEndControllerTest {
 
   private MockMvc mockMvc;
 

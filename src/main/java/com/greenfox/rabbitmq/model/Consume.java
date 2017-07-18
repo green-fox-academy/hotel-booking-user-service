@@ -14,12 +14,9 @@ public class Consume {
 
   public void consume(String queue) throws Exception {
     ConnectionSetter connectionSetter = new ConnectionSetter();
-    connectionSetter.setFactory();
-    Connection connection = connectionSetter.getFactory().newConnection();
-    Channel channel = connection.createChannel();
-    channel.queueDeclare(queue, false, false, false, null);
+    connectionSetter.getChannel().queueDeclare(queue, false, false, false, null);
 
-    Consumer consumer = new DefaultConsumer(channel) {
+    Consumer consumer = new DefaultConsumer(connectionSetter.getChannel()) {
       @Override
       public void handleDelivery(String consumerTag, Envelope envelope,
                                  AMQP.BasicProperties properties, byte[] body)
@@ -30,17 +27,12 @@ public class Consume {
       }
     };
 
-    channel.basicConsume(queue, true, consumer);
-    channel.close();
-    connection.close();
+    connectionSetter.getChannel().basicConsume(queue, true, consumer);
+    connectionSetter.getChannel().close();
+    connectionSetter.getConnection().close();
   }
 
   public String getReceivedMessage() {
     return receivedMessage;
   }
-
-  public void setReceivedMessage(String receivedMessage) {
-    this.receivedMessage = receivedMessage;
-  }
-
 }

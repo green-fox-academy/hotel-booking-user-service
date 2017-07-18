@@ -16,25 +16,25 @@ import java.util.ArrayList;
 import java.util.List;
 
 @RestController
-public class GuardedEnd {
+public class GuardedEndController {
 
   @GetMapping("/user/{id}")
-  public ResponseEntity getUserRelatedStuff(
-          @PathVariable("id") Long id,
-          @RequestHeader(required = false, value = "Authorization") String authorization) {
+  public ResponseEntity getAuthorizedUser(
+      @PathVariable("id") Long id,
+      @RequestHeader(required = false, value = "Authorization") String authorization) {
     if (authorization == null || authorization.equals("Bearer " + "invalidToken")) {
-      List<Error> tempList = new ArrayList<>();
-      Error tempError = new Error("401",
-              "Unauthorized",
-              "No token is provided");
-      tempList.add(tempError);
-      ErrorResponse tempResp = new ErrorResponse(tempList);
-      return new ResponseEntity<>(tempResp, HttpStatus.UNAUTHORIZED);
+      List<Error> errorList = new ArrayList<>();
+      Error error = new Error("401",
+          "Unauthorized",
+          "No token is provided");
+      errorList.add(error);
+      ErrorResponse errorResp = new ErrorResponse(errorList);
+      return new ResponseEntity<>(errorResp, HttpStatus.UNAUTHORIZED);
     } else {
       Account account = new Account(id, "john.doe@example.org", false, "validToken");
       Data data = new Data("user", account);
       RequestData requestData = new RequestData(data);
-        return new ResponseEntity<>(requestData, HttpStatus.CREATED);
+      return new ResponseEntity<>(requestData, HttpStatus.CREATED);
     }
 
   }
