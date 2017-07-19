@@ -9,7 +9,6 @@ import com.google.gson.JsonObject;
 import com.greenfox.UserServiceApplication;
 import com.greenfox.model.Account;
 import com.greenfox.repository.AccountRepository;
-import com.greenfox.service.JwtCreator;
 import org.junit.Before;
 import org.junit.FixMethodOrder;
 import org.junit.Test;

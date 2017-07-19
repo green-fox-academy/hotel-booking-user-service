@@ -2,6 +2,7 @@ package com.greenfox.aspect;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import org.aspectj.lang.JoinPoint;
 import org.aspectj.lang.annotation.After;
 import org.aspectj.lang.annotation.Aspect;
 import org.aspectj.lang.annotation.Pointcut;
@@ -22,9 +23,18 @@ public class LoggingAspect {
   public void restController() {
   }
 
+  @Pointcut("within(com.greenfox..*)")
+  public void allMethods() {
+  }
+
   @After("restController()")
   public void logInfoAdvice() {
     logger.info(getRequest().getServerName() + " / HTTP-REQUEST " + getRequest().getRequestURI());
+  }
+
+  @After("allMethods()")
+  public void logDebugAdvice(JoinPoint joinPoint) {
+    logger.debug("Executed method: " + joinPoint.getSignature().getName());
   }
 
   @After("restController()")
