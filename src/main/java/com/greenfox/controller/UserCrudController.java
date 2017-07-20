@@ -10,18 +10,21 @@ import java.beans.PropertyDescriptor;
 import java.lang.reflect.Method;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 import javax.servlet.http.HttpServletRequest;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
+import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PatchMapping;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
@@ -72,50 +75,24 @@ public class UserCrudController {
     }
   }
 
-  @PatchMapping(value = "/api/users/{userId}")
+  @PutMapping(value = "/api/users/{userId}")
   public ResponseEntity updateUser(@PathVariable(required = false) Long userId,
-      HttpServletRequest request, @RequestBody RequestData requestData) throws Exception {
+      HttpEntity request) throws Exception {
+    HashMap map = (LinkedHashMap) request.getBody();
+    HashMap map1 = (LinkedHashMap) map.get("data");
+    HashMap map2 = (LinkedHashMap) map1.get("attributes");
     if (!(accountRepository.findOneById(userId, new PageRequest(0, 1)).getContent().size() == 0)) {
       Account account = accountRepository.findOne(userId);
-      if (((Account) requestData.getData().getAttributes()).isAdmin()) {
+      if ((Boolean) map2.get("admin")) {
         account.setAdmin(true);
       }
-      if (((Account) requestData.getData().getAttributes()).getToken() != null) {
-        account.setToken(((Account) requestData.getData().getAttributes()).getToken());
+      if (map2.get("email") != null) {
+        account.setEmail((String) map2.get("email"));
       }
-      if (((Account) requestData.getData().getAttributes()).getEmail() != null) {
-        account.setEmail(((Account) requestData.getData().getAttributes()).getEmail());
-      }
-//      if (((Account) requestData.getData().getAttributes()).getId() != null) {
-//        account.setId(((Account) requestData.getData().getAttributes()).getId());
-//      } //WHY CHANGE, NO WAY
-//      if (((Account) requestData.getData().getAttributes()).getPassword() != null) {
-//        account.setPassword(((Account) requestData.getData().getAttributes()).getPassword());
-//      } //ALWAYS NULL
       accountRepository.save(account);
-
-      Map<String, Object> map = introspect((requestData.getData().getAttributes()));
-      List<Object> list = new ArrayList<>(map.keySet());
-      List<Object> result = new ArrayList<>();
-      list.stream()
-          .filter(key -> map.get(key) != null)
-          .forEach(result::add);
-
       return new ResponseEntity<>("{}", HttpStatus.OK);
     } else {
       return new ResponseEntity<>(userCrudService.createErrorResponse(userId), HttpStatus.NOT_FOUND);
     }
   }
-
-  public static Map<String, Object> introspect(Object obj) throws Exception {
-    Map<String, Object> result = new HashMap<>();
-    BeanInfo info = Introspector.getBeanInfo(obj.getClass());
-    for (PropertyDescriptor pd : info.getPropertyDescriptors()) {
-      Method reader = pd.getReadMethod();
-      if (reader != null)
-        result.put(pd.getName(), reader.invoke(obj));
-    }
-    return result;
-  }
-
 }
